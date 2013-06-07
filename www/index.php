@@ -4,7 +4,6 @@
 	<title>DCC xPressNet Control</title>
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="stylesheet" href="css/rail.css" />
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
 	<script src="js/jquery-1.9.1.min.js"></script>
@@ -13,7 +12,7 @@
 </head>
 <body>
 
-<div data-role="page">
+<div data-role="page" style="min-width: 430px">
 
 	<div data-role="header">
 		<h1>xPressNet Control</h1>
