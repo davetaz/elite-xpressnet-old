@@ -1,0 +1,34 @@
+.loco {
+	width: 350px;
+	border: 1px solid gray;
+	border-radius: 10px;
+	padding: 1em;
+	height: 100px;
+	background-color: #CDF;
+	margin: 0.5em;
+	display: inline-block;
+}
+.function_label {
+	display: inline-block;
+	width: 70px;
+	text-align: right;
+	font-size: 0.75em;
+	vertical-align: top;
+	padding-top: 5px;	
+}
+.function_panel {
+	display: inline-block;
+	text-align: right;
+	padding-right: 15px;
+	float: right;
+}
+.direction_panel {
+	display: inline-block;
+	vertical-align: top;
+}
+.hide {
+	float: right;
+	position: relative;
+	bottom: 10px;
+	left: 5px;
+}
