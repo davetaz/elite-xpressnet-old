@@ -15,6 +15,8 @@ train = {}
 for s_in in data["sections"]:
 	section[s_in["id"]] = Section(s_in["id"],s_in["directions"]);
 
+# TODO: Iteration over the sections in the config to set next and previous
+
 for s_in in data["sensors"]:
 	sensor[s_in["id"]] = Sensor(s_in["id"],section[s_in["section"]],s_in["placement"]);
 	section[s_in["section"]].addSensor(sensor[s_in["id"]]);
