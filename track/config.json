@@ -1,0 +1,21 @@
+{
+   "sections": [
+	{ "id": 1, "directions": "B", "forward": 2 }, 
+	{ "id": 2, "directions": "B", "reverse": 1 } 
+   ],
+   "sensors": [
+	{ "id": 1, "section" : 1, "placement" : "R" },	     
+	{ "id": 2, "section" : 1, "placement" : "F" },	     
+	{ "id": 3, "section" : 2, "placement" : "R" },
+	{ "id": 3, "section" : 2, "placement" : "F" }	     
+   ],
+   "signals": [
+	{ "id": 1, "section" : 1, "placement" : "F", "aspects" : 2 },	     
+	{ "id": 2, "section" : 2, "placement" : "R", "aspects" : 2 }	     
+   ],
+   "trains": [
+	{ "id": 3, "sensor_count": 2, "sections": [ 1 ] }
+   ]
+}
+	    	
+	
