@@ -29,7 +29,42 @@ Constructor:
     def setDirections(self, directions):
         """Method docstring."""
         self.directions = directions
+	
+    def setForwardSection(self, section):
+	self.forwardSection = section
     
+    def getForwardSection(self):
+	try: 
+		self.forwardSection
+	except: 
+		pass
+	else: 
+		return self.forwardSection
+    
+    def setReverseSection(self, section):
+	self.reverseSection = section
+    
+    def getReverseSection(self):
+	try:
+		self.reverseSection
+	except:
+		pass
+	else: 
+		return self.reverseSection
+		
+
+    def getNextSection(self):
+	if (self.getCurrentDirection() == "F"):
+		return self.getForwardSection()
+	if (self.getCurrentDirection() == "R"):
+		return self.getReverseSection()
+    
+    def getPreviousSection(self):
+	if (self.getCurrentDirection() == "R"):
+		return self.getForwardSection()
+	if (self.getCurrentDirection() == "F"):
+		return self.getReverseSection()
+
     def setCurrentDirection(self, direction):
         """TODO: Add checks to see if section direction can be changed!"""
         self.currentDirection = direction
@@ -58,4 +93,14 @@ Constructor:
     def getSignals(self):
 	return self.signals
 
-	
+    def setTrain(self, train):
+	self.train = train
+
+    def getTrain(self):
+	try:
+		self.train
+	except: 
+		pass
+	else:
+		return self.train
+

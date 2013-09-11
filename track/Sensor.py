@@ -10,18 +10,19 @@ Constructor:
 
 """
 
-    def __init__(self, id_in, section_id, placement):
+    def __init__(self, id_in, section, placement):
         """Method docstring."""
 	self.id = id_in
-        self.sectionID = section_id
+        self.section = section
 	self.placement = placement
+	self.triggerCount = 0
 
     def getId(self):
 	return self.id
 
-    def getSectionID(self):
+    def getSection(self):
         """Method docstring."""
-        return self.sectionID
+        return self.section
 
     def getPlacement(self):
         """Method docstring."""
