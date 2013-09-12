@@ -75,6 +75,14 @@ for section in sections:
 		print s.getColor()
 
 
+def updateSignals()
+	global sections
+	for section in sections:
+		direction = section.getCurrentDirection()
+		## TODO GOT HERE	
+	
+
+
 # TASK 1
 # Follow a train along a number of sections
 # Consume events from the queue and send events to the queue to set signals potentially
@@ -94,11 +102,10 @@ def handleSensorUpdate(message,sensor):
 			del prevSection.train
 			for psensor in prevSection.getSensors():
 				psensor.triggerCount = 0		
-			# Need to update signals
-
 		
 			print "Train has left Section " + str(section.getPreviousSection().getId())
-			
+#			Call refresh on all signals
+#			updateSignals()
 
 	if (sensor.triggerCount % 2 == 0):
 		sensor.triggerCount = 0
@@ -110,7 +117,10 @@ def handleSensorUpdate(message,sensor):
 		train = section.getPreviousSection().getTrain()
 		if (train): 
 			section.setTrain(train)
-			train.setDirection(section.getCurrentDirection());
+			train.setDirection(section.getCurrentDirection())
+			# Need to update signals
+			prevSection = section.getPreviousSection()
+			prevSection.getSignal(prevSection.getCurrentDirection()).setColor("red")
 			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
 
 
@@ -126,8 +136,9 @@ def handleTrainUpdate(message,train,instruction,data):
 
 
 
-
 r = redis.Redis()
+
+updateSignals()
 
 while 1:
 	message = r.lpop('sensors')

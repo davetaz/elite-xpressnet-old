@@ -100,6 +100,11 @@ Constructor:
     def getSignals(self):
 	return self.signals
 
+    def getSignal(self, direction):
+	for signal in self.getSignals():
+		if(signal.getPlacement() == direction):
+			return signal
+
     def setTrain(self, train):
 	self.train = train
 

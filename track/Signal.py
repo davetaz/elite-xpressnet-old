@@ -35,6 +35,7 @@ Constructor:
 	
     def setColor(self,color):
 	"""TODO: Make this manage the redis queue"""
+	print "Setting signal " + str(self.getId()) + " to color " + color
 	self.color = color	
     
     def getColor(self):
