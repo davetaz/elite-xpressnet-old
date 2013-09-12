@@ -23,14 +23,12 @@ for s_in in data["sections"]:
 		s_in["forward"] and section[s_in["forward"]]
 	except:
 		pass
-#		print "Caught forward exception with section " + str(s_in["id"])
 	else:
 		section[s_in["id"]].setForwardSection(section[s_in["forward"]])
 	try: 
 		s_in["reverse"] and section[s_in["reverse"]]
 	except:
 		pass
-#		print "Caught reverse exception with section " + str(s_in["id"])	
 	else:
 		section[s_in["id"]].setReverseSection(section[s_in["reverse"]])
 		
@@ -81,44 +79,80 @@ for section in sections:
 # Follow a train along a number of sections
 # Consume events from the queue and send events to the queue to set signals potentially
 
-r = redis.Redis()
+def handleSensorUpdate(message,sensor):
+	sensor.triggerCount += 1
+	section = sensor.getSection()
+	train = section.getTrain()
+	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count " + str(sensor.triggerCount)
+	if (sensor.triggerCount % 2 == 0 and section.getPreviousSection()):
+		prevSection = section.getPreviousSection()
+		try:
+			prevSection.train
+		except: 
+			pass
+		else:
+			del prevSection.train
+			for psensor in prevSection.getSensors():
+				psensor.triggerCount = 0		
+			# Need to update signals
 
-# TODO Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section
+		
+			print "Train has left Section " + str(section.getPreviousSection().getId())
+			
+
+	if (sensor.triggerCount % 2 == 0):
+		sensor.triggerCount = 0
+	
+	if (train):
+		print "Train " + str(train.getId()) + " in section already"
+	else:
+		print "Need to work out which train this is!"
+		train = section.getPreviousSection().getTrain()
+		if (train): 
+			section.setTrain(train)
+			train.setDirection(section.getCurrentDirection());
+			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
+
+
+# Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)
+
+def handleTrainUpdate(message,train,instruction,data):
+	print "In Here"
+	if (instruction == "Direction"):
+		train.setDirection(data)
+		sections = train.getSections()
+		for section in sections:
+			section.setCurrentDirection(data)
+
+
+
+
+r = redis.Redis()
 
 while 1:
 	message = r.lpop('sensors')
 	if (message):
 		bits = message.split(',')
 		address = bits[0] + "," + bits[1]
-		lsensor = sensor[address]
-		lsensor.triggerCount += 1
-		lsection = lsensor.getSection()
-		train = lsection.getTrain()
-		print "Sensor activated: " + address + " Section: " + str(lsection.getId()) + " Direction: " + lsensor.getPlacement() + " Count " + str(lsensor.triggerCount)
-		if (lsensor.triggerCount % 2 == 0 and lsection.getPreviousSection()):
-			prevSection = lsection.getPreviousSection()
-			try:
-				prevSection.train
-			except: 
-				pass
-			else:
-				del prevSection.train
-				for tsensor in prevSection.getSensors():
-					tsensor.triggerCount = 0 
-				print "Train has left Section " + str(lsection.getPreviousSection().getId())
-		if (lsensor.triggerCount % 2 == 0):
-			lsensor.triggerCount = 0
-		if (train):
-			print "Train " + str(train.getId()) + " in section already"
-		else:
-			print "Need to work out which train this is!"
-			train = lsection.getPreviousSection().getTrain()
-			if (train): 
-				print "Train " + str(train.getId()) + " moved from Section " + str(lsection.getPreviousSection().getId()) + " to section " + str(lsection.getId())
-				lsection.setTrain(train)
-			
-#		lsection = section[lsensor.getSectionId()]
-#		print "Sensor activated: " + address + " Section: " + lsection.getId() + " Direction: " + lsensor.getPlacement
+		try: 
+			sensor[address]
+		except:
+			pass
+		else: 
+			handleSensorUpdate(message,sensor[address])
+	
+	message = r.lpop('trains')
+	if (message):
+		bits = message.split(',')
+		address = int(bits[0])
+		instruction = bits[1]
+		data = bits[2]
+		try: 
+			train[address]
+		except:
+			pass
+		else: 
+			handleTrainUpdate(message,train[address],instruction,data)
 
 # TASK 2
 # Set a signal to allow a train into the next section

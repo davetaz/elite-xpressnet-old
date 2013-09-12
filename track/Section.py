@@ -66,8 +66,15 @@ Constructor:
 		return self.getReverseSection()
 
     def setCurrentDirection(self, direction):
-        """TODO: Add checks to see if section direction can be changed!"""
-        self.currentDirection = direction
+        """Checks to see if section direction can be changed!"""
+        if (self.getDirections() == "B" or self.getDirections() == direction):
+		print "Setting direction for " + str(self.getId()) + " to " + direction
+		self.currentDirection = direction
+	
+	"""FIXME: This should be based upon routing, not automatic"""
+	if (self.getNextSection()):
+		print "Trying to set direction for next section"
+		self.getNextSection().setCurrentDirection(direction)
 
     def getCurrentDirection(self):
         """Get current direction of section"""
