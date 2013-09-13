@@ -4,10 +4,10 @@
 	{ "id": 2, "directions": "B", "reverse": 1 } 
    ],
    "sensors": [
-	{ "id": 1, "section" : 1, "placement" : "R" },	     
-	{ "id": 2, "section" : 1, "placement" : "F" },	     
-	{ "id": 3, "section" : 2, "placement" : "R" },
-	{ "id": 3, "section" : 2, "placement" : "F" }	     
+	{ "id": "20,0x01", "section" : 1, "placement" : "R" },	     
+	{ "id": "20,0x02", "section" : 1, "placement" : "F" },	     
+	{ "id": "20,0x04", "section" : 2, "placement" : "R" },
+	{ "id": "20,0x08", "section" : 2, "placement" : "F" }	     
    ],
    "signals": [
 	{ "id": 1, "section" : 1, "placement" : "F", "aspects" : 2 },	     

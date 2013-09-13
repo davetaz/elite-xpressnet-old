@@ -1,10 +1,9 @@
 import redis
-import time
+import sys
 
 r = redis.Redis()
 
-i = 0
-while True:
-    r.rpush('queue', 'Message %d' % i)
-    i += 1
-    time.sleep(1)
+queue = sys.argv[1]
+message = sys.argv[2]
+
+r.rpush(queue, message)
