@@ -139,9 +139,11 @@ def handleTrainUpdate(message,train,instruction,data):
 		sections = train.getSections()
 		for section in sections:
 			section.setCurrentDirection(data)
+# In order to reverse the train automatically we need to look at the number of clear sections ahead of the new request (in the new direction) and compare this to the number of available sections (to end of route). 
+# If the number of clear sections = number of sections or clear sections > 3, reverse the lot and ensure that red is showing in the opposite direction. 
+# Update signals routine needs to take into account the direction of each section (which it might do already)
+# If the number of clear sections < 2 and number of sections > 2, do nothing
 	updateSignals()
-
-
 
 r = redis.Redis()
 
