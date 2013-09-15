@@ -105,6 +105,23 @@ Constructor:
 		if(signal.getPlacement() == direction):
 			return signal
 
+    def setSignalColor(self, direction, color):
+	try:
+		signal = self.getSignal(direction).setColor(color)
+  	except: 
+		pass
+
+    def updateSignals(self):
+	opposite = "F"
+	if (self.currentDirection == "F"):
+		opposite = "R"
+	self.setSignalColor(opposite,"red")
+	clearSectionCount = self.getClearCount(0)
+	print "Section " + str(self.getId()) + " Count " + str(clearSectionCount)
+	signal = self.getSignal(self.getCurrentDirection())
+	if (signal):
+		signal.setColorByCount(clearSectionCount)
+
     def setTrain(self, train):
 	self.train = train
 
@@ -116,3 +133,21 @@ Constructor:
 	else:
 		return self.train
 
+    def isOccupied(self):
+	try:
+		self.train
+	except: 
+		return 0
+	else:
+		return 1
+	
+    def getClearCount(self,count):
+	nextSection = self.getNextSection()
+	if (nextSection):
+		if (nextSection.isOccupied()):
+			return count
+		else:
+			count = count + 1
+			return nextSection.getClearCount(count)
+	else:
+		return count

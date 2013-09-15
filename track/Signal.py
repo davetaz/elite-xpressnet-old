@@ -40,3 +40,15 @@ Constructor:
     
     def getColor(self):
 	return self.color
+
+    def setColorByCount(self,count):
+	if (count == 0):
+		self.setColor("red")
+	if (self.getAspects() == 4 and count > 2):
+		self.setColor("green")
+	if (self.getAspects() == 4 and count == 2):
+		self.setColor("twoamber")
+	if (self.getAspects() == 3 and count > 1):
+		self.setColor("green")
+	if (self.getAspects() < 4 and count == 1):
+		self.setColor("amber")

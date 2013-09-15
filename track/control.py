@@ -1,3 +1,5 @@
+# TODO: Seem to have signals working in one direction, but when you reverse a train it doesn't reverse the signals... 
+
 import json
 import redis
 from Section import Section
@@ -8,6 +10,7 @@ from Train import Train
 json_data=open('config.json')
 data = json.load(json_data)
 
+sections = {}
 section = {}
 sensor = {}
 signal = {}
@@ -16,6 +19,7 @@ train = {}
 # Set up Sections
 for s_in in data["sections"]:
 	section[s_in["id"]] = Section(s_in["id"],s_in["directions"])
+	sections[section[s_in["id"]]] = 1
 
 # Iterate over the sections in the config to set next and previous
 for s_in in data["sections"]:
@@ -55,8 +59,8 @@ for t_in in data["trains"]:
 #Get Train #3
 t_3 = train[3];
 #Get the sections that Train #3 is currently in
-sections = t_3.getSections();
-for section in sections:
+tsections = t_3.getSections();
+for section in tsections:
 	#Get the signals in this section
 	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
 	nextSection = section.getNextSection()	
@@ -75,10 +79,12 @@ for section in sections:
 		print s.getColor()
 
 
-def updateSignals()
+def updateSignals():
 	global sections
-	for section in sections:
-		direction = section.getCurrentDirection()
+	for s in sections:
+		print "Processing section " + str(s.getId())
+		s.updateSignals()
+				
 		## TODO GOT HERE	
 	
 
@@ -105,7 +111,7 @@ def handleSensorUpdate(message,sensor):
 		
 			print "Train has left Section " + str(section.getPreviousSection().getId())
 #			Call refresh on all signals
-#			updateSignals()
+			updateSignals()
 
 	if (sensor.triggerCount % 2 == 0):
 		sensor.triggerCount = 0
@@ -121,18 +127,19 @@ def handleSensorUpdate(message,sensor):
 			# Need to update signals
 			prevSection = section.getPreviousSection()
 			prevSection.getSignal(prevSection.getCurrentDirection()).setColor("red")
+			updateSignals()
 			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
 
 
 # Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)
 
 def handleTrainUpdate(message,train,instruction,data):
-	print "In Here"
 	if (instruction == "Direction"):
 		train.setDirection(data)
 		sections = train.getSections()
 		for section in sections:
 			section.setCurrentDirection(data)
+	updateSignals()
 
 
 
