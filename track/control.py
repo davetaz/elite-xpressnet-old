@@ -1,4 +1,5 @@
-# TODO: Seem to have signals working in one direction, but when you reverse a train it doesn't reverse the signals... 
+# Status update 22/9/2013 
+# This simple example should now work with 3 connected sections, 4 sensors and 2 signals. This code needs freezing and testing at version 1. Then it could probably do with some tidying up with debug routines before moving onto adding turnouts.
 
 import json
 import redis
@@ -94,6 +95,8 @@ def updateSignals():
 # Consume events from the queue and send events to the queue to set signals potentially
 
 def handleSensorUpdate(message,sensor):
+	print ""
+	print ""
 	sensor.triggerCount += 1
 	section = sensor.getSection()
 	train = section.getTrain()
@@ -106,6 +109,7 @@ def handleSensorUpdate(message,sensor):
 			pass
 		else:
 			del prevSection.train
+			train.removeSection(prevSection)
 			for psensor in prevSection.getSensors():
 				psensor.triggerCount = 0		
 		
@@ -123,6 +127,7 @@ def handleSensorUpdate(message,sensor):
 		train = section.getPreviousSection().getTrain()
 		if (train): 
 			section.setTrain(train)
+			train.addSection(section)
 			train.setDirection(section.getCurrentDirection())
 			# Need to update signals
 			prevSection = section.getPreviousSection()
@@ -134,15 +139,13 @@ def handleSensorUpdate(message,sensor):
 # Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)
 
 def handleTrainUpdate(message,train,instruction,data):
+	print ""
+	print "" 
 	if (instruction == "Direction"):
 		train.setDirection(data)
 		sections = train.getSections()
 		for section in sections:
 			section.setCurrentDirection(data)
-# In order to reverse the train automatically we need to look at the number of clear sections ahead of the new request (in the new direction) and compare this to the number of available sections (to end of route). 
-# If the number of clear sections = number of sections or clear sections > 3, reverse the lot and ensure that red is showing in the opposite direction. 
-# Update signals routine needs to take into account the direction of each section (which it might do already)
-# If the number of clear sections < 2 and number of sections > 2, do nothing
 	updateSignals()
 
 r = redis.Redis()
