@@ -29,7 +29,7 @@ This layout defines a strait piece of track with no turnouts (points) that a tra
 
 In diagramatic form:
 
-###Key:
+###Key
 * |----------------| = Section
 * X = Sensor
 * } = Left (forward) facing signal
