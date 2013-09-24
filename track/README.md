@@ -7,10 +7,11 @@ This library is built to read in sensor data and control signals, turnouts and t
 ## Objects
 
 The library is developed in python and uses a number of classes to represent the objects in a railway layout:
-	* Train.py - Allows control of a train, speed and DCC functions.
-	* Sensor.py - Some form of sensor that gets activated when a train passes over it or activates it. Used to find the possition of the trains.
-	* Signal.py - A signal, position, colour and direction of control. 
-	* Section.py - Defines a section of train, this is the key class as a section may contain many Sensors,Signals and Trains.
+
+* Train.py - Allows control of a train, speed and DCC functions.
+* Sensor.py - Some form of sensor that gets activated when a train passes over it or activates it. Used to find the possition of the trains.
+* Signal.py - A signal, position, colour and direction of control. 
+* Section.py - Defines a section of train, this is the key class as a section may contain many Sensors,Signals and Trains.
 	
 For more information on each class, usage and API please refer to the comments in each.
 
@@ -28,12 +29,14 @@ This layout defines a strait piece of track with no turnouts (points) that a tra
 
 In diagramatic form:
 
+###Key:
 * |----------------| = Section
 * X = Sensor
 * } = Left (forward) facing signal
 * { = Right (reverse) facing signal
 * TTTTTTT = Train
 
+###Layout
 |-X-TTTTTT-X-}-|-{-X-------X-}-|-{-X--------|
 
 Each section has a valid direction which a train can travel, either forward (to the right), reverse (to the left) or bi-directional. This is configured as "F","R" and "B" respectively. Additionally the config must define the connections between the sections, in this case stating that section 2 is forward of section 1, section 1 is reverse of section 2 etc (see config file)
