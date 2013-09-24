@@ -101,6 +101,7 @@ Reverse the direction of the train. This will reverse the signals meaning that a
 Move train 3 back to section 1:
 
 > python publisher.py sensors 20,0x02,1
+
 > python publisher.py sensors 20,0x02,1
 
 Reverse the train to face forward again and we are back to stage one with a green and amber signal in the forward direction.
