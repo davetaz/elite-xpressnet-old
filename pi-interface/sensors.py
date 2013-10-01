@@ -1,6 +1,7 @@
 import smbus
-import time
-import sys
+import redis
+
+redis = redis.Redis()
 
 bus = smbus.SMBus(1)
 #addresses = [0x20,0x21]
@@ -32,7 +33,6 @@ for address in addresses:
 	bus.write_byte_data(address,0x13,int(status))
 	prev[address]=255
 
-
 while 1 :
 	for address in addresses:
 		state = bus.read_byte_data(address,INTCAPA)
@@ -40,13 +40,8 @@ while 1 :
 		back = mask - state
 		if (back > 0 and back != prev[address]):
 			prev[address] = back
-			print back
+			active = str(address) + ",A," + str(back)
+			print "sensors " + active
+			redis.rpush("sensors",active)
 		if (state == 255):
 			prev[address] = 255
-			
-
-#		x=bus.read_byte_data(address,INTCAPA)
-#		bar=bin(x)[2:].zfill(8)
-#		if (bar != prev[address]) :
-#			prev[address] = bar
-#			print str(address) + " READING " + str(bar)

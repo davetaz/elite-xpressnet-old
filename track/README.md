@@ -74,9 +74,9 @@ Once this is running you can trigger sensor events with the publisher.py script 
 
 To trigger Sensors and move train from one section to another
 
-> python publisher.py sensors 20,0x08,1
+> python publisher.py sensors 32,8,1
 
-This pushes a simple message to the sensors queue stating that sensor 0x08 on address 20 was activated (1). The addresses and locations of the sensors are specified in the config and consumed by control.py
+This pushes a simple message to the sensors queue stating that sensor 8 on address 20 was activated (1). The addresses and locations of the sensors are specified in the config and consumed by control.py
 
 Likewise to control a train we can publish a change of direction event to the train queue:
 
@@ -88,11 +88,11 @@ In order to test control.py we can add the following events to be processed on o
 
 Activate the first sensor in section 2, meaning train 3 is now in sections 1 and 2. This will change signal 1 to red. 
 
-> python publisher.py sensors 20,0x04,1
+> python publisher.py sensors 32,A,4
 
 Activate this sensor again to represent the back of train 3 entering the section, thus leaving section 1. No change to signals.
 
-> python publisher.py sensors 20,0x04,1
+> python publisher.py sensors 32,A,4
 
 Reverse the direction of the train. This will reverse the signals meaning that all signals go red except signal 2 which goes amber.
 
@@ -100,9 +100,9 @@ Reverse the direction of the train. This will reverse the signals meaning that a
 
 Move train 3 back to section 1:
 
-> python publisher.py sensors 20,0x02,1
+> python publisher.py sensors 32,A,2
 
-> python publisher.py sensors 20,0x02,1
+> python publisher.py sensors 32,A,2
 
 Reverse the train to face forward again and we are back to stage one with a green and amber signal in the forward direction.
 
