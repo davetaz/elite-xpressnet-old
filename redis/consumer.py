@@ -4,6 +4,7 @@ import sys
 
 r = redis.Redis()
 
-message = r.lpop(sys.argv[1])
-if (message):
-	print "Message: " + message
+while 1:
+	message = r.lpop(sys.argv[1])
+	if (message):
+		print "Message: " + message
