@@ -10,6 +10,7 @@ from Train import Train
 
 json_data=open('config.json')
 data = json.load(json_data)
+redis = redis.Redis()
 
 sections = {}
 section = {}
@@ -44,7 +45,7 @@ for s_in in data["sensors"]:
 
 # Setup signals and add these to sections
 for s_in in data["signals"]:
-	signal[s_in["id"]] = Signal(s_in["id"],s_in["section"],s_in["placement"],s_in["aspects"])
+	signal[s_in["id"]] = Signal(s_in["id"],s_in["section"],s_in["placement"],s_in["aspects"],redis,"signal_action")
 	signal[s_in["id"]].setColor("red")
 	section[s_in["section"]].addSignal(signal[s_in["id"]])
 
@@ -148,23 +149,22 @@ def handleTrainUpdate(message,train,instruction,data):
 			section.setCurrentDirection(data)
 	updateSignals()
 
-r = redis.Redis()
-
 updateSignals()
 
 while 1:
-	message = r.lpop('sensors')
+	message = redis.lpop('sensors')
 	if (message):
 		bits = message.split(',')
-		address = bits[0] + "," + bits[1]
+		address = bits[0] + "," + bits[1] + "," + bits[2]
 		try: 
 			sensor[address]
 		except:
+			print "Recieved a message from a sensor that didn't exist in the config!"
 			pass
 		else: 
 			handleSensorUpdate(message,sensor[address])
 	
-	message = r.lpop('trains')
+	message = redis.lpop('trains')
 	if (message):
 		bits = message.split(',')
 		address = int(bits[0])
