@@ -3,7 +3,8 @@ import time
 import sys
 
 bus = smbus.SMBus(1)
-addresses = [0x20,0x21]
+#addresses = [0x20,0x21]
+addresses = [0x20]
 
 IODIRA =  0x00 
 IODIRB =  0x01
@@ -29,13 +30,23 @@ for address in addresses:
 
 	status = bus.read_byte_data(address,0x13)
 	bus.write_byte_data(address,0x13,int(status))
-	prev[address]="11111111"
+	prev[address]=255
 
 
 while 1 :
 	for address in addresses:
-		x=bus.read_byte_data(address,INTCAPA)
-		bar=bin(x)[2:].zfill(8)
-		if (bar != prev[address]) :
-			prev[address] = bar
-			print str(address) + " READING " + str(bar)
+		state = bus.read_byte_data(address,INTCAPA)
+		mask = 255
+		back = mask - state
+		if (back > 0 and back != prev[address]):
+			prev[address] = back
+			print back
+		if (state == 255):
+			prev[address] = 255
+			
+
+#		x=bus.read_byte_data(address,INTCAPA)
+#		bar=bin(x)[2:].zfill(8)
+#		if (bar != prev[address]) :
+#			prev[address] = bar
+#			print str(address) + " READING " + str(bar)
