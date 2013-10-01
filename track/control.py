@@ -56,30 +56,31 @@ for t_in in data["trains"]:
 		train[t_in["id"]].addSection(section[sec_in])
 		section[sec_in].setTrain(train[t_in["id"]])
 	
-#print section[1].getCurrentDirection();
-
-#Get Train #3
-t_3 = train[3];
-#Get the sections that Train #3 is currently in
-tsections = t_3.getSections();
-for section in tsections:
-	#Get the signals in this section
-	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
-	nextSection = section.getNextSection()	
-	try:
-		nextSection
-	except:
-		print "No next section!";
-	else:
-		print "Next Section: " + str(nextSection.getId())
-
-	s_1 = section.getSignals();
-	#Print out some info
-	for s in s_1:
-		print s.getId() 
-		print s.getPlacement()
-		print s.getColor()
-
+## TRAINING / DEBUG CODE 
+## Performs some very basic operations
+## print section[1].getCurrentDirection();
+## Get Train #3
+#t_3 = train[3];
+## Get the sections that Train #3 is currently in
+#tsections = t_3.getSections();
+#for section in tsections:
+## Get the signals in this section
+#	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
+#	nextSection = section.getNextSection()	
+#	try:
+#		nextSection
+#	except:
+#		print "No next section!";
+#	else:
+#		print "Next Section: " + str(nextSection.getId())
+#
+#	s_1 = section.getSignals();
+## Print out some info
+#	for s in s_1:
+#		print s.getId() 
+#		print s.getPlacement()
+#		print s.getColor()
+#
 
 def updateSignals():
 	global sections
