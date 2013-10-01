@@ -1,5 +1,4 @@
 [
-{"id":3,"direction":"f","speed":50},
-{"id":5,"direction":"r","speed":50},
-{"id":12,"direction":"f","speed":0}
+	{"id":0,"direction":"f","speed":12},
+	{"id":3,"direction":"f","speed":0}
 ]
