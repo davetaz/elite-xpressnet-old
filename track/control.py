@@ -1,3 +1,6 @@
+# Status update 22/9/2013 
+# This simple example should now work with 3 connected sections, 4 sensors and 2 signals. This code needs freezing and testing at version 1. Then it could probably do with some tidying up with debug routines before moving onto adding turnouts.
+
 import json
 import redis
 from Section import Section
@@ -7,7 +10,9 @@ from Train import Train
 
 json_data=open('config.json')
 data = json.load(json_data)
+redis = redis.Redis()
 
+sections = {}
 section = {}
 sensor = {}
 signal = {}
@@ -16,6 +21,7 @@ train = {}
 # Set up Sections
 for s_in in data["sections"]:
 	section[s_in["id"]] = Section(s_in["id"],s_in["directions"])
+	sections[section[s_in["id"]]] = 1
 
 # Iterate over the sections in the config to set next and previous
 for s_in in data["sections"]:
@@ -23,14 +29,12 @@ for s_in in data["sections"]:
 		s_in["forward"] and section[s_in["forward"]]
 	except:
 		pass
-#		print "Caught forward exception with section " + str(s_in["id"])
 	else:
 		section[s_in["id"]].setForwardSection(section[s_in["forward"]])
 	try: 
 		s_in["reverse"] and section[s_in["reverse"]]
 	except:
 		pass
-#		print "Caught reverse exception with section " + str(s_in["id"])	
 	else:
 		section[s_in["id"]].setReverseSection(section[s_in["reverse"]])
 		
@@ -41,7 +45,7 @@ for s_in in data["sensors"]:
 
 # Setup signals and add these to sections
 for s_in in data["signals"]:
-	signal[s_in["id"]] = Signal(s_in["id"],s_in["section"],s_in["placement"],s_in["aspects"])
+	signal[s_in["id"]] = Signal(s_in["id"],s_in["section"],s_in["placement"],s_in["aspects"],redis,"signal_action")
 	signal[s_in["id"]].setColor("red")
 	section[s_in["section"]].addSignal(signal[s_in["id"]])
 
@@ -52,73 +56,127 @@ for t_in in data["trains"]:
 		train[t_in["id"]].addSection(section[sec_in])
 		section[sec_in].setTrain(train[t_in["id"]])
 	
-#print section[1].getCurrentDirection();
+## TRAINING / DEBUG CODE 
+## Performs some very basic operations
+## print section[1].getCurrentDirection();
+## Get Train #3
+#t_3 = train[3];
+## Get the sections that Train #3 is currently in
+#tsections = t_3.getSections();
+#for section in tsections:
+## Get the signals in this section
+#	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
+#	nextSection = section.getNextSection()	
+#	try:
+#		nextSection
+#	except:
+#		print "No next section!";
+#	else:
+#		print "Next Section: " + str(nextSection.getId())
+#
+#	s_1 = section.getSignals();
+## Print out some info
+#	for s in s_1:
+#		print s.getId() 
+#		print s.getPlacement()
+#		print s.getColor()
+#
 
-#Get Train #3
-t_3 = train[3];
-#Get the sections that Train #3 is currently in
-sections = t_3.getSections();
-for section in sections:
-	#Get the signals in this section
-	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
-	nextSection = section.getNextSection()	
-	try:
-		nextSection
-	except:
-		print "No next section!";
-	else:
-		print "Next Section: " + str(nextSection.getId())
-
-	s_1 = section.getSignals();
-	#Print out some info
-	for s in s_1:
-		print s.getId() 
-		print s.getPlacement()
-		print s.getColor()
+def updateSignals():
+	global sections
+	for s in sections:
+		print "Processing section " + str(s.getId())
+		s.updateSignals()
+				
+		## TODO GOT HERE	
+	
 
 
 # TASK 1
 # Follow a train along a number of sections
 # Consume events from the queue and send events to the queue to set signals potentially
 
-r = redis.Redis()
+def handleSensorUpdate(message,sensor):
+	print ""
+	print ""
+	sensor.triggerCount += 1
+	section = sensor.getSection()
+	train = section.getTrain()
+	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count " + str(sensor.triggerCount)
+	if (sensor.triggerCount % 2 == 0 and section.getPreviousSection()):
+		prevSection = section.getPreviousSection()
+		try:
+			prevSection.train
+		except: 
+			pass
+		else:
+			del prevSection.train
+			train.removeSection(prevSection)
+			for psensor in prevSection.getSensors():
+				psensor.triggerCount = 0		
+		
+			print "Train has left Section " + str(section.getPreviousSection().getId())
+#			Call refresh on all signals
+			updateSignals()
 
-# TODO Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section
+	if (sensor.triggerCount % 2 == 0):
+		sensor.triggerCount = 0
+	
+	if (train):
+		print "Train " + str(train.getId()) + " in section already"
+	else:
+		print "Need to work out which train this is!"
+		train = section.getPreviousSection().getTrain()
+		if (train): 
+			section.setTrain(train)
+			train.addSection(section)
+			train.setDirection(section.getCurrentDirection())
+			# Need to update signals
+			prevSection = section.getPreviousSection()
+			prevSection.getSignal(prevSection.getCurrentDirection()).setColor("red")
+			updateSignals()
+			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
+
+
+# Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)
+
+def handleTrainUpdate(message,train,instruction,data):
+	print ""
+	print "" 
+	if (instruction == "Direction"):
+		train.setDirection(data)
+		sections = train.getSections()
+		for section in sections:
+			section.setCurrentDirection(data)
+	updateSignals()
+
+updateSignals()
 
 while 1:
-	message = r.lpop('sensors')
+	message = redis.lpop('sensors')
 	if (message):
 		bits = message.split(',')
-		address = bits[0] + "," + bits[1]
-		lsensor = sensor[address]
-		lsensor.triggerCount += 1
-		lsection = lsensor.getSection()
-		train = lsection.getTrain()
-		print "Sensor activated: " + address + " Section: " + str(lsection.getId()) + " Direction: " + lsensor.getPlacement() + " Count " + str(lsensor.triggerCount)
-		if (lsensor.triggerCount % 2 == 0 and lsection.getPreviousSection()):
-			prevSection = lsection.getPreviousSection()
-			try:
-				prevSection.train
-			except: 
-				pass
-			else:
-				del prevSection.train
-				for tsensor in prevSection.getSensors():
-					tsensor.triggerCount = 0 
-				print "Train has left Section " + str(lsection.getPreviousSection().getId())
-		if (lsensor.triggerCount % 2 == 0):
-			lsensor.triggerCount = 0
-		if (train):
-			print "Train " + str(train.getId()) + " in section already"
-		else:
-			print "Need to work out which train this is!"
-			train = lsection.getPreviousSection().getTrain()
-			if (train): 
-				print "Train " + str(train.getId()) + " moved from Section " + str(lsection.getPreviousSection().getId()) + " to section " + str(lsection.getId())
-				lsection.setTrain(train)
-			
-#		lsection = section[lsensor.getSectionId()]
-#		print "Sensor activated: " + address + " Section: " + lsection.getId() + " Direction: " + lsensor.getPlacement
+		address = bits[0] + "," + bits[1] + "," + bits[2]
+		try: 
+			sensor[address]
+		except:
+			print "Recieved a message from a sensor that didn't exist in the config!"
+			pass
+		else: 
+			handleSensorUpdate(message,sensor[address])
+	
+	message = redis.lpop('trains')
+	if (message):
+		bits = message.split(',')
+		address = int(bits[0])
+		instruction = bits[1]
+		data = bits[2]
+		try: 
+			train[address]
+		except:
+			pass
+		else: 
+			handleTrainUpdate(message,train[address],instruction,data)
 
 # TASK 2
 # Set a signal to allow a train into the next section

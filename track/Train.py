@@ -13,7 +13,8 @@ Constructor:
         """Method docstring."""
 	self.id = id_in
         self.sensorCount = sensor_count
-	self.sections = [];
+	self.sections = []
+	self.speed = 0
 
     def getId(self):
 	return self.id
@@ -39,7 +40,15 @@ Constructor:
 	return self.speed
     
     def setDirection(self,direction):
-	self.direction = direction
+	try: 
+		self.direction
+	except:
+		self.direction = direction
+
+	if (self.direction == direction):
+		return
+	elif (self.speed == 0):
+		self.direction = direction
 
     def getDirection(self):
 	return self.direction

@@ -1,8 +1,10 @@
 import redis
 import time
+import sys
 
 r = redis.Redis()
 
-message = r.lpop('sensors')
-if (message):
-	print "Message: " + message
+while 1:
+	message = r.lpop(sys.argv[1])
+	if (message):
+		print "Message: " + message

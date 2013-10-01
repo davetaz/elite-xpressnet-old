@@ -1,17 +1,22 @@
 {
    "sections": [
 	{ "id": 1, "directions": "B", "forward": 2 }, 
-	{ "id": 2, "directions": "B", "reverse": 1 } 
+	{ "id": 2, "directions": "B", "forward": 3, "reverse": 1 }, 
+	{ "id": 3, "directions": "B", "reverse": 2 }
    ],
    "sensors": [
-	{ "id": "20,0x01", "section" : 1, "placement" : "R" },	     
-	{ "id": "20,0x02", "section" : 1, "placement" : "F" },	     
-	{ "id": "20,0x04", "section" : 2, "placement" : "R" },
-	{ "id": "20,0x08", "section" : 2, "placement" : "F" }	     
+	{ "id": "20,A,0x01", "section" : 1, "placement" : "R" },	     
+	{ "id": "20,A,0x02", "section" : 1, "placement" : "F" },	     
+	{ "id": "20,A,0x04", "section" : 2, "placement" : "R" },
+	{ "id": "21,A,0x01", "section" : 2, "placement" : "F" },	     
+	{ "id": "21,A,0x02", "section" : 3, "placement" : "R" },
+	{ "id": "21,A,0x04", "section" : 3, "placement" : "F" }	     
    ],
    "signals": [
-	{ "id": 1, "section" : 1, "placement" : "F", "aspects" : 2 },	     
-	{ "id": 2, "section" : 2, "placement" : "R", "aspects" : 2 }	     
+	{ "id": "20,B,0x01", "section" : 1, "placement" : "F", "aspects" : 3 },	     
+	{ "id": "20,B,0x16", "section" : 2, "placement" : "R", "aspects" : 2 },	     
+	{ "id": "21,B,0x01", "section" : 2, "placement" : "F", "aspects" : 2 },	     
+	{ "id": "21,B,0x16", "section" : 3, "placement" : "R", "aspects" : 3 }	     
    ],
    "trains": [
 	{ "id": 3, "sensor_count": 2, "sections": [ 1 ] }
