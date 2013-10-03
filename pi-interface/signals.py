@@ -1,3 +1,12 @@
+# Overview
+# This script should take a signals id (e.g. 32,B,16) and the color this signal needs to be.
+# In order to manage the signals we will need to load a new signals object for each signal based upon the ids. 
+# In order to change the signal we need to work out the mask for the pins dictated by the number of aspects. 
+# Later the number of aspects will also include feathers so you could have a signal that uses all 8 control channels on a single mcp23017 chip (A or B).
+# To change the mask we need to get the state of the current channel, shift the bits to match our new signal and write this back out. 
+# Example 
+# change_signal("32,B,16",green)
+# 
 import smbus
 import time
 import sys
