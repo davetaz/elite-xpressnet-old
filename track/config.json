@@ -20,6 +20,15 @@
    ],
    "trains": [
 	{ "id": 3, "sensor_count": 2, "sections": [ 1 ] }
+   ],
+   "piinterface": [
+   	{ "id": 1, "bus": 1 }
+   ],
+   "gpio": [
+	{ "pi_id": 1, "address": "32", "bank": "A", "mode": "input" },
+	{ "pi_id": 1, "address": "32", "bank": "B", "mode": "output" },
+	{ "pi_id": 1, "address": "33", "bank": "A", "mode": "input" },
+	{ "pi_id": 1, "address": "33", "bank": "A", "mode": "output" }
    ]
 }
 	    	
