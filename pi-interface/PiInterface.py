@@ -13,5 +13,5 @@ Constructor:
         """Method docstring."""
 	self.bus = smbus.SMBus(bus_in)
 
-    def getBus():
+    def getBus(self):
 	return self.bus
