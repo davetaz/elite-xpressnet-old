@@ -13,7 +13,7 @@
 	{ "id": "33,A,4", "section" : 3, "placement" : "F" }	     
    ],
    "signals": [
-	{ "id": "32,B,1", "section" : 1, "placement" : "F", "aspects" : 3 },	     
+	{ "id": "32,B,1", "section" : 1, "placement" : "F", "aspects" : 3 },
 	{ "id": "32,B,16", "section" : 2, "placement" : "R", "aspects" : 2 },	     
 	{ "id": "33,B,1", "section" : 2, "placement" : "F", "aspects" : 2 },	     
 	{ "id": "33,B,16", "section" : 3, "placement" : "R", "aspects" : 3 }	     
@@ -25,11 +25,9 @@
    	{ "id": 1, "bus": 1 }
    ],
    "gpio": [
-	{ "pi_id": 1, "address": "32", "bank": "A", "mode": "input" },
-	{ "pi_id": 1, "address": "32", "bank": "B", "mode": "output" },
-	{ "pi_id": 1, "address": "33", "bank": "A", "mode": "input" },
-	{ "pi_id": 1, "address": "33", "bank": "A", "mode": "output" }
+	{ "id": "32,A", "pi_id": 1, "address": "32", "bank": "A", "mode": "input" },
+	{ "id": "32,B", "pi_id": 1, "address": "32", "bank": "B", "mode": "output" },
+	{ "id": "33,A", "pi_id": 1, "address": "33", "bank": "A", "mode": "input" },
+	{ "id": "33,B", "pi_id": 1, "address": "33", "bank": "B", "mode": "output" }
    ]
-}
-	    	
-	
+}	
