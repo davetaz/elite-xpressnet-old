@@ -27,7 +27,7 @@ for s_in in data["signals"]:
 	io = gpio[key]
 	start_address = bits[2]
 	signal[s_in["id"]] = Signal(s_in["id"],io,s_in["aspects"],start_address)
-       	io.addSignal(signal[s_in["id"]])
+	io.addOutput(signal[s_in["id"]])
 
 def setSignals(signal,redis):
 	message = redis.lpop('signal_action')
