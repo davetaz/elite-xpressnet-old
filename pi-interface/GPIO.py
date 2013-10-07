@@ -57,6 +57,7 @@ Output = 0x00
 			pass
 	if (self.mode == "output"):
 		self.signals = []
+		self.outputs = []
 		try:
 			self.interface.getBus().write_byte_data(self.address,self.IODIR,0x00)
 		except:
@@ -98,32 +99,32 @@ Output = 0x00
     def getRecordedState(self):
 	return self.recordedState
 
-    def addSignal(self, signal):
-        self.signals.append(signal)
+    def addOutput(self, output):
+	self.outputs.append(output)
+    
+    def getOutputs(self):
+	return self.outputs
 
-    def getSignals(self):
-        return self.signals
-
-    def getSignalByStartAddress(self,address):
-        signals = self.getSignals()
-	for idn in signals:
-                signal = signals[idn]
-                if (signal.getStartAddress() == mask):
-                        return signal
+    def getOutputByStartAddress(self,address):
+        outputs = self.getOutputs()
+	for idn in outputs:
+                output = output[idn]
+                if (output.getStartAddress() == mask):
+                        return output
         return 0
-
+    
     def updateState(self):
 	mask = 1;
-	output = 0;
+	gpio_state = 0;
 	while mask < 255:
-		signal = self.getSignalByStartAddress(mask)
-		if (signal != 0):
+		output = self.getOutputByStartAddress(mask)
+		if (output != 0):
 			local_mask = 1
-			for num in range(1,int(signal.getAspects()+1)):
-				if (signal.getColorMask() & local_mask):
-					output = output + mask
+			for num in range(1,int(output.getPorts()+1)):
+				if (output.getMask() & local_mask):
+					gpio_state = gpio_state + mask
 					mask = mask << 1
 					local_mask = local_mask << 1
 				else:
 					mask = mask << 1
-	self.setState(output);
+	self.setState(gpio_state);

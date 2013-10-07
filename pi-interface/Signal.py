@@ -25,6 +25,10 @@ Constructor:
     def getAspects(self):
         """Method docstring."""
         return self.aspects
+    
+    def getPorts(self):
+        """Method docstring."""
+        return self.aspects
 
     def getStartAddress(self):
 	return self.start_address
@@ -41,7 +45,7 @@ Constructor:
 		mask = 0x04
 	if (self.getAspects() == 4 and color == "twoamber"):
 		mask = 0x0A
-	self.colormask = mask
+	self.mask = mask
 	self.color = color	
 	print "Setting ACTUAL signal " + self.getId() + " to " + str(mask)
 	self.getGPIO().updateState()  
@@ -49,8 +53,8 @@ Constructor:
     def getColor(self):
 	return self.color
 
-    def getColorMask(self):
-	return self.colormask
+    def getMask(self):
+	return self.mask
 
     def setColorByCount(self,count):
 	if (count == 0):
