@@ -30,10 +30,6 @@ Constructor:
 	return self.start_address
 	
     def setColor(self,color):
-	#FIXME Handle all signals and not just those that start at pin 1
-	if (self.getStartAddress() > 1):
-		print "HIGH: " + str(self.getStartAddress())
-		return
 	"""Returns the mask for the signal color, this has to be put together with other data before being sent to the bus"""
 	if (color == "red"):
 		mask = 0x01
@@ -41,16 +37,20 @@ Constructor:
 		mask = 0x02
 	if (self.getAspects() == 3 and color == "amber"):
 		mask = 0x02
-	if (self.getAspects() == 3 and color == "green"):
+	if (self.getAspects() > 2 and color == "green"):
 		mask = 0x04
 	if (self.getAspects() == 4 and color == "twoamber"):
 		mask = 0x0A
+	self.colormask = mask
 	self.color = color	
 	print "Setting ACTUAL signal " + self.getId() + " to " + str(mask)
-	self.getGPIO().setState(mask)  
+	self.getGPIO().updateState()  
  
     def getColor(self):
 	return self.color
+
+    def getColorMask(self):
+	return self.colormask
 
     def setColorByCount(self,count):
 	if (count == 0):

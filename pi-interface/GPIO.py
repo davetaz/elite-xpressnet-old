@@ -103,3 +103,27 @@ Output = 0x00
 
     def getSignals(self):
         return self.signals
+
+    def getSignalByStartAddress(self,address):
+        signals = self.getSignals()
+	for idn in signals:
+                signal = signals[idn]
+                if (signal.getStartAddress() == mask):
+                        return signal
+        return 0
+
+    def updateState(self):
+	mask = 1;
+	output = 0;
+	while mask < 255:
+		signal = self.getSignalByStartAddress(mask)
+		if (signal != 0):
+			local_mask = 1
+			for num in range(1,int(signal.getAspects()+1)):
+				if (signal.getColorMask() & local_mask):
+					output = output + mask
+					mask = mask << 1
+					local_mask = local_mask << 1
+				else:
+					mask = mask << 1
+	self.setState(output);
