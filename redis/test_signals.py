@@ -9,7 +9,11 @@ r = redis.Redis()
 
 r.rpush("signal_action",'"32,B,1",green');
 #8
+sleep(5)
 r.rpush("signal_action",'"32,B,16",red');
 #64
+sleep(5)
 r.rpush("signal_action",'"32,B,16",twoamber');
 #32
+sleep(5)
+r.rpush("signal_action",'"32,B,1",red');
