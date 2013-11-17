@@ -9,12 +9,19 @@ Constructor:
 	ports = The number of ports the output is connected to on the GPIO
 	start_address = The address of the first port
 """
-    def __init__(self, id_in, gpio_in, ports_in, start_address_in):
+    def __init__(self, id_in, gpio_in, pinOut_in, start_address_in):
         """Method docstring."""
 	self.id = id_in
         self.gpio = gpio_in
-	self.ports = ports_in
 	self.start_address = int(start_address_in)
+	self.pinOut = pinOut_in
+
+	bits = self.getPinOut().split(",")
+	ports_in = len(bits)
+	self.ports = ports_in
+
+	# FIXME Read the mask from the GPIO so if the system creashes we don't need a total reset
+	self.mask = self.getPhysicalMask()
 
     def getId(self):
 	return self.id
@@ -22,6 +29,9 @@ Constructor:
     def getGPIO(self):
 	return self.gpio
 
+    def getPinOut(self):
+	return self.pinOut
+    
     def getPorts(self):
         """Method docstring."""
         return self.ports
@@ -31,6 +41,13 @@ Constructor:
 	
     def setMask(self,mask_in):
 	self.mask = mask_in
-    
+	self.getGPIO().updateState()  
+   
     def getMask(self):
 	return self.mask
+
+    def getPhysicalMask(self):
+	gpio_mask = self.getGPIO().getState()
+	start = self.getStartAddress();
+	# TODO HERE
+	return 0;

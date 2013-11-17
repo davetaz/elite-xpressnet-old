@@ -13,10 +13,10 @@
 	{ "id": "33,A,4", "section" : 3, "placement" : "F" }	     
    ],
    "signals": [
-	{ "id": "32,B,1", "section" : 1, "placement" : "F", "aspects" : 3 },
-	{ "id": "32,B,16", "section" : 2, "placement" : "R", "aspects" : 2 },	     
-	{ "id": "33,B,1", "section" : 2, "placement" : "F", "aspects" : 2 },	     
-	{ "id": "33,B,16", "section" : 3, "placement" : "R", "aspects" : 3 }	     
+	{ "id": "32,B,1", "pinOut" : "2A,R,A,G", "section" : 1, "placement" : "F", "aspects" : 3 },
+	{ "id": "32,B,16", "pinOut" : "G,A,R,2A", "section" : 2, "placement" : "R", "aspects" : 2 },	     
+	{ "id": "33,B,1", "pinOut" : "2A,R,A,G", "section" : 2, "placement" : "F", "aspects" : 2 },	     
+	{ "id": "33,B,16", "pinOut" : "G,A,R,2A", "section" : 3, "placement" : "R", "aspects" : 3 }	     
    ],
    "trains": [
 	{ "id": 3, "sensor_count": 2, "sections": [ 1 ] }

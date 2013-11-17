@@ -1,4 +1,4 @@
-import smbus
+#import smbus
 
 class PiInterface(object):
     """A simple bus like interface to as raspberry pi
@@ -11,7 +11,8 @@ Constructor:
 """
     def __init__(self, bus_in):
         """Method docstring."""
-	self.bus = smbus.SMBus(bus_in)
+	self.bus = bus_in
+#	self.bus = smbus.SMBus(bus_in)
 
     def getBus(self):
 	return self.bus

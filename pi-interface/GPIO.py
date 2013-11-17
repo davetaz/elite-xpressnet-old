@@ -81,15 +81,17 @@ Output = 0x00
 	try:
 		state = self.getInterface().getBus().read_byte_data(self.getAddress(),self.INTCAP);
 	except:
-		return "NULL"
+	#	print "Failed to get physical state"
+		return 0
 	else:
 		return int(state)
 	
     def setState(self,state):
+	print "Updating state of GPIO to " + str(state)
 	try:
 		self.getInterface().getBus().write_byte_data(self.getAddress(),self.GPIO,state)
 	except: 
-		print "Failed to set state"
+		print "Failed to set physical state"
 	else:
 		pass
 	
@@ -108,23 +110,13 @@ Output = 0x00
     def getOutputByStartAddress(self,address):
         outputs = self.getOutputs()
 	for idn in outputs:
-                output = output[idn]
-                if (output.getStartAddress() == mask):
-                        return output
+                if (idn.getStartAddress() == address):
+                        return idn
         return 0
     
     def updateState(self):
-	mask = 1;
-	gpio_state = 0;
-	while mask < 255:
-		output = self.getOutputByStartAddress(mask)
-		if (output != 0):
-			local_mask = 1
-			for num in range(1,int(output.getPorts()+1)):
-				if (output.getMask() & local_mask):
-					gpio_state = gpio_state + mask
-					mask = mask << 1
-					local_mask = local_mask << 1
-				else:
-					mask = mask << 1
+        gpio_state = 0
+	outputs = self.getOutputs()
+	for idn in outputs:
+		gpio_state = gpio_state + idn.getMask()
 	self.setState(gpio_state);
