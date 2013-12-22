@@ -37,22 +37,24 @@ Output = 0x00
 	if (self.bank == "A"): 
 		self.IODIR = 0x00
 		self.GPPU = 0x0c
-		self.GPINTENA = 0x04
+		self.GPINTEN = 0x04
 		self.INTCAP = 0x10
 		self.GPIO = 0x12 
 	if (self.bank == "B"):	
 		self.IODIR = 0x01
 		self.GPPU = 0x0d
-		self.GPINTENA = 0x05
+		self.GPINTEN = 0x05
 		self.INTCAP = 0x11
 		self.GPIO = 0x13 
 	self.mode = mode_in
 	self.recordedState = 255
-	if (self.mode == "intput"):
+	if (self.mode == "input"):
 		try:
 			self.interface.getBus().write_byte_data(self.address,self.IODIR,0xff)
+			self.interface.getBus().write_byte_data(self.address,self.GPPU,0xff)
+			self.interface.getBus().write_byte_data(self.address,self.GPINTEN,0xff)
 		except:
-			pass
+			print "Error setting input";
 		else:
 			pass
 	if (self.mode == "output"):

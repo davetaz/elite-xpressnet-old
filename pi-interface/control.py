@@ -61,6 +61,7 @@ def readInputs(gpio):
 		io = gpio[io_id]
 		if (io.getMode() == "input"):
 			state = io.getState()
+#			print "Reading state " + str(state) + " from " + str(io_id);
 			if (state == "NULL"):
 				pass
 			else:
