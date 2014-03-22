@@ -23,21 +23,34 @@ for s_in in data["sections"]:
 	section[s_in["id"]] = Section(s_in["id"],s_in["directions"])
 	sections[section[s_in["id"]]] = 1
 
-# Iterate over the sections in the config to set next and previous
+# Iterate over the sections in the config to set next and previous, which is ALSO an ITTERATION!
+# This does not define which section is connected!
 for s_in in data["sections"]:
 	try:
-		s_in["forward"] and section[s_in["forward"]]
+		s_in["forward"]
 	except:
 		pass
 	else:
-		section[s_in["id"]].setForwardSection(section[s_in["forward"]])
-	try: 
-		s_in["reverse"] and section[s_in["reverse"]]
+		for f_option in s_in["forward"]:
+			section[s_in["id"]].setForwardSection(section[f_option])
+	try:
+		s_in["reverse"]
 	except:
 		pass
 	else:
-		section[s_in["id"]].setReverseSection(section[s_in["reverse"]])
-		
+		for r_option in s_in["reverse"]:
+			section[s_in["id"]].setReverseSection(section[r_option])
+
+sec_buffer = [];
+for s in section:
+	if (len(section[s].getForwardSections()) > 1 or len(section[s].getReverseSections()) > 1):
+		sec_buffer.append(section[s])
+	else:
+		section[s].autoConnectSections()
+for s in sec_buffer:
+	s.autoConnectSections()
+	
+	
 # Setup sensors and add these to sections
 for s_in in data["sensors"]:
 	sensor[s_in["id"]] = Sensor(s_in["id"],section[s_in["section"]],s_in["placement"])
@@ -88,8 +101,6 @@ def updateSignals():
 		print "Processing section " + str(s.getId())
 		s.updateSignals()
 				
-		## TODO GOT HERE	
-	
 
 
 # TASK 1
@@ -102,7 +113,11 @@ def handleSensorUpdate(message,sensor):
 	sensor.triggerCount += 1
 	section = sensor.getSection()
 	train = section.getTrain()
-	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count " + str(sensor.triggerCount)
+	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count: " + str(sensor.triggerCount)
+	if (train):
+		print "Train: " + str(train.getId())
+	else:
+		print "No train in section " + str(section.getId())
 	if (sensor.triggerCount % 2 == 0 and section.getPreviousSection()):
 		prevSection = section.getPreviousSection()
 		try:
@@ -111,7 +126,8 @@ def handleSensorUpdate(message,sensor):
 			pass
 		else:
 			del prevSection.train
-			train.removeSection(prevSection)
+			if (train):
+				train.removeSection(prevSection)
 			for psensor in prevSection.getSensors():
 				psensor.triggerCount = 0		
 		
@@ -126,14 +142,19 @@ def handleSensorUpdate(message,sensor):
 		print "Train " + str(train.getId()) + " in section already"
 	else:
 		print "Need to work out which train this is!"
+		#if (section.getPreviousSection()):
 		train = section.getPreviousSection().getTrain()
-		if (train): 
+		if (train):
+			print "It's train " + str(train.getId()) 
 			section.setTrain(train)
 			train.addSection(section)
 			train.setDirection(section.getCurrentDirection())
 			# Need to update signals
 			prevSection = section.getPreviousSection()
-			prevSection.getSignal(prevSection.getCurrentDirection()).setColor("red")
+			try:
+				prevSection.getSignal(prevSection.getCurrentDirection()).setColor("red")
+			except:
+				pass
 			updateSignals()
 			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
 
