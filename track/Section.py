@@ -116,9 +116,37 @@ Constructor:
 
     def setCurrentDirection(self, direction):
         """Checks to see if section direction can be changed!"""
-        if (self.getDirections() == "B" or self.getDirections() != direction):
-		print "Setting direction for " + str(self.getId()) + " to " + direction
-		self.currentDirection = direction
+	print ""
+	print "Trying to set direction of section " + str(self.getId()) + " to " + direction 
+	nextSection = self.getNextSection();
+	if (nextSection):
+		if (self.getDirections() == "B" and self.getTurnoutSection() == False and (nextSection.getDirections() == "B" or nextSection.getDirections() == direction)):
+			print "NO TURNOUT Setting direction for " + str(self.getId()) + " to " + direction
+			self.currentDirection = direction
+		if (self.getDirections() == "B" and self.getTurnoutSection() == True):
+			print "Is Turnout, need to autoconnect to the right section"
+			self.currentDirection = direction
+			self.autoConnectSections()
+			nextSection = self.getNextSection()
+			nextSection.setCurrentDirection(direction)
+	else:
+		if (self.getDirections() == "B" and self.getTurnoutSection() == False):
+			print "NO TURNOUT Setting direction for " + str(self.getId()) + " to " + direction
+			self.currentDirection = direction
+	
+	
+
+	nextSection = self.getNextSection();
+	if (nextSection):
+		clearSections = []
+		connectedSections = []
+		if (nextSection.getCurrentDirection() != self.getCurrentDirection()):
+			clearSections = nextSection.getClearSectionsDirection(clearSections,direction)
+			connectedSections = nextSection.getSectionsDirection(connectedSections,direction)
+			print "Clear Sections = " + str(len(clearSections))
+			print "Connected Sections = " + str(len(connectedSections))
+			if ((len(clearSections) == len(connectedSections)) or (len(clearSections) > 3)):	
+				nextSection.setCurrentDirection(direction)
 	
 #"""FIXED: This should be based upon routing, not automatic"""
 	
@@ -126,7 +154,7 @@ Constructor:
 # If the number of clear sections = number of sections or clear sections > 3, reverse the lot and ensure that red is showing in the opposite direction. 
 # Update signals routine needs to take into account the direction of each section (which it might do already)
 # If the number of clear sections < 2 and number of sections > 2, do nothing
-	if (self.getNextSection()):
+	if (nextSection):
 		clearSections = []
 		connectedSections = []
 		clearSections = self.getClearSectionsDirection(clearSections,direction)
@@ -134,9 +162,11 @@ Constructor:
 		print "Clear Sections = " + str(len(clearSections))
 		print "Connected Sections = " + str(len(connectedSections))
 	
-		if ((len(clearSections) == len(connectedSections)) or (len(clearSections) > 3)):
-			
-			self.getNextSection().setCurrentDirection(direction)
+		if ((len(clearSections) == len(connectedSections)) or (len(clearSections) > 1)):	
+			nextSection.setCurrentDirection(direction)
+	else:
+		print "NO NEXT SECTION!"	
+	
 
     def getCurrentDirection(self):
         """Get current direction of section"""
@@ -228,7 +258,8 @@ Constructor:
     def getSectionsDirection(self,connectedSections,direction):
 	nextSection = self.getSection(direction)
 	if (nextSection):
-		connectedSections.append(nextSection)
+		if (nextSection.getTurnoutSection() == False):
+			connectedSections.append(nextSection)
 		return nextSection.getSectionsDirection(connectedSections,direction)
 	else:
 		return connectedSections
