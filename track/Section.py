@@ -90,7 +90,7 @@ Constructor:
 	else:
 		for prev_section in self.getReverseSections():
 			if (prev_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+				print "NEED TO SET TURNOUT connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
 				self.setCurrentReverseSection(prev_section)
 	if (len(self.getForwardSections()) == 1):
 		next_section = self.getForwardSections()[0]
@@ -99,7 +99,7 @@ Constructor:
 	else:
 		for next_section in self.getForwardSections():
 			if (next_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
+				print "NEED TO SET TURNOUT connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
 				self.setCurrentForwardSection(next_section)
 	
     def getNextSection(self):
