@@ -7,6 +7,7 @@ from Section import Section
 from Sensor import Sensor
 from Signal import Signal
 from Train import Train
+from Turnout import Turnout
 
 json_data=open('config.json')
 data = json.load(json_data)
@@ -14,6 +15,7 @@ redis = redis.Redis()
 
 sections = {}
 section = {}
+turnout = {}
 sensor = {}
 signal = {}
 train = {}
@@ -22,6 +24,10 @@ train = {}
 for s_in in data["sections"]:
 	section[s_in["id"]] = Section(s_in["id"],s_in["directions"])
 	sections[section[s_in["id"]]] = 1
+
+for s_in in data["turnouts"]:
+	turnout[s_in["id"]] = Turnout(s_in["id"],s_in["section"],redis,"turnout_action")
+	section[s_in["section"]].setTurnout(turnout[s_in["id"]])
 
 # Iterate over the sections in the config to set next and previous, which is ALSO an ITTERATION!
 # This does not define which section is connected!

@@ -30,14 +30,14 @@ for s_in in data["signals"]:
 	output[s_in["id"]] = Signal(s_in["id"],io,s_in["pinOut"],start_address,s_in["aspects"])
 	io.addOutput(output[s_in["id"]])
 
-#
-#for t_in in data["turnouts"]:
-#	bits = t_in["id"].split(",")
-#	key = str(bits[0]) + "," + str(bits[1])
-#	io = gpio[key]
-#	start_address = bits[2]
-#	output[t_in["id"]] = Turnout(t_in["id"],io,t_in["pinOut"],start_address)
-#	io.addOutput(output[t_in["id"]])
+
+for t_in in data["turnouts"]:
+	bits = t_in["id"].split(",")
+	key = str(bits[0]) + "," + str(bits[1])
+	io = gpio[key]
+	start_address = bits[2]
+	output[t_in["id"]] = Turnout(t_in["id"],io,t_in["pinOut"],start_address)
+	io.addOutput(output[t_in["id"]])
 
 def setSignals(output,redis):
 	message = redis.lpop('signal_action')
@@ -48,14 +48,14 @@ def setSignals(output,redis):
 		output[long_id].setColor(color)
 		print long_id + " to " + color
 
-#def setTurnouts(output,redis):
-#	message = redis.lpop('turnout_action')
-#	if (message):
-#		bits = message.split('",')
-#		long_id = bits[0].replace('"','',1);
-#		position = bits[1]
-#		output[long_id].setPosition(position)
-#		print long_id + " to " + position
+def setTurnouts(output,redis):
+	message = redis.lpop('turnout_action')
+	if (message):
+		bits = message.split('",')
+		long_id = bits[0].replace('"','',1);
+		position = bits[1]
+		output[long_id].setPosition(position)
+		print long_id + " to " + position
 
 def readInputs(gpio):
 	for io_id in gpio:
@@ -79,5 +79,5 @@ def readInputs(gpio):
 while 1:
 	readInputs(gpio)
 	setSignals(output,redis)
-#	setTurnouts(output,redis)
+	setTurnouts(output,redis)
 

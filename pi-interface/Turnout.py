@@ -5,6 +5,7 @@ class Turnout(Output):
 
     def __init__(self, id_in, gpio_in, pinOut_in, start_address_in):
 	Output.__init__(self, id_in, gpio_in, pinOut_in, start_address_in)
+	print "Initialising turnout " + str(id_in)
 	self.position = "NULL"
 	
     def setPosition(self,position):
@@ -12,6 +13,7 @@ class Turnout(Output):
 	mask = 0
 	bits = self.getPinOut().split(",")
 	for bit in bits:
+		print "Comparing " + bit + " to " + position
 		if (bit == position):
 			self.position = position
 			mask = mask + position_mask

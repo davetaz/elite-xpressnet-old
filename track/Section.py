@@ -20,7 +20,8 @@ Constructor:
 	self.signals = []
 	self.forwardSections = []
 	self.reverseSections = []
-	self.turnout = False
+	self.turnout = None
+	self.isTurnout = False
 
     def getId(self):
 	return self.id
@@ -39,6 +40,13 @@ Constructor:
 		return self.getForwardSection()
 	if (direction == "R"):
 		return self.getReverseSection()
+
+    def setTurnout(self, turnout):
+	print "setting turnout for section " + str(self.getId())
+	self.turnout = turnout 
+
+    def getTurnout(self):
+	return self.turnout
 
     def setForwardSection(self, section):
 	self.forwardSections.append(section)
@@ -75,22 +83,23 @@ Constructor:
 	return self.reverseSections;
 
     def setTurnoutSection(self,state):
-	self.turnout = state
+	self.isTurnout = state
 
     def getTurnoutSection(self):
-	return self.turnout
+	return self.isTurnout
 
     def autoConnectSections(self):
 	if (len(self.getForwardSections()) > 1 or len(self.getReverseSections()) > 1):
 		self.setTurnoutSection(True)
 	if (len(self.getReverseSections()) == 1):
 		prev_section = self.getReverseSections()[0]
-		print "connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+		print "[TURNOUT] Connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
 		self.setCurrentReverseSection(prev_section)
 	else:
 		for prev_section in self.getReverseSections():
 			if (prev_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "NEED TO SET TURNOUT connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+				self.getTurnout().setConnected(prev_section.getId());
 				self.setCurrentReverseSection(prev_section)
 	if (len(self.getForwardSections()) == 1):
 		next_section = self.getForwardSections()[0]
@@ -99,7 +108,8 @@ Constructor:
 	else:
 		for next_section in self.getForwardSections():
 			if (next_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "NEED TO SET TURNOUT connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
+				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
+				self.getTurnout().setConnected(next_section.getId());
 				self.setCurrentForwardSection(next_section)
 	
     def getNextSection(self):
@@ -121,10 +131,10 @@ Constructor:
 	nextSection = self.getNextSection();
 	if (nextSection):
 		if (self.getDirections() == "B" and self.getTurnoutSection() == False and (nextSection.getDirections() == "B" or nextSection.getDirections() == direction)):
-			print "NO TURNOUT Setting direction for " + str(self.getId()) + " to " + direction
+			print "[NO TURNOUT] Setting direction for " + str(self.getId()) + " to " + direction
 			self.currentDirection = direction
 		if (self.getDirections() == "B" and self.getTurnoutSection() == True):
-			print "Is Turnout, need to autoconnect to the right section"
+			print "[TURNOUT] Need to autoconnect to the right section"
 			self.currentDirection = direction
 			self.autoConnectSections()
 			nextSection = self.getNextSection()
