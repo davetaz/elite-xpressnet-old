@@ -9,7 +9,7 @@ $.ajaxSetup ({
 
 $(document).ready(function() {
 	display_3_only();
-//	loco_monitor();
+	loco_monitor();
 	register_event_handlers();
 });
 
@@ -34,10 +34,10 @@ function register_event_handlers() {
 }
 
 function set_direction(direction,loco,element) {
-	if (direction == "f") {
+	if (direction == "F" || direction == "f") {
 		direction = "forward";
 	}
-	if (direction == "r") {
+	if (direction == "R" || direction == "r") {
 		direction = "reverse";
 	}
 	if (element == null) {
@@ -61,9 +61,10 @@ for (i=3;i<128;i++) {
 }
 
 function loco_monitor() {
-	$.ajax('data/locos.json')
+	$.ajax('data/config.json')
 	  .done(function(data) {
-		$.each(data, function(i, obj) {
+		trains = data["trains"];
+		$.each(trains, function(i, obj) {
 			node_id = "loco_" + obj.id;
 			if (!$("#"+node_id).is(':visible') && obj.speed > 0) {
 				$("#"+node_id).fadeIn('slow');

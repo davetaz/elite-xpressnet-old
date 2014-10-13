@@ -11,3 +11,9 @@ Then open the www/index.html page in a browser, I linked it into /var/www
 Then you can move the controller on the elite and see the slider move as loco 3 speeds up and slows down.
 
 Loco 3 only at the moment
+
+TODO:
+
+Rewite serialisation code to get each object (Train, Sections, Signals)
+Stop points from trying to change multiple times (output their state with above)
+Get directional control working from web interface
