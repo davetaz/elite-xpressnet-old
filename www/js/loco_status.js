@@ -9,7 +9,7 @@ $.ajaxSetup ({
 
 $(document).ready(function() {
 	display_3_only();
-	loco_monitor();
+//	loco_monitor();
 	register_event_handlers();
 });
 
