@@ -106,9 +106,7 @@ def updateSignals():
 	for s in sections:
 		print "Processing section " + str(s.getId())
 		s.updateSignals()
-				
-
-
+			
 # TASK 1
 # Follow a train along a number of sections
 # Consume events from the queue and send events to the queue to set signals potentially
@@ -177,6 +175,14 @@ def handleTrainUpdate(message,train,instruction,data):
 			section.setCurrentDirection(data)
 	updateSignals()
 
+def rewriteConfig(data):
+	for t_in in data["trains"]:
+		t_in["sections"] = train[t_in["id"]].getSectionsArray()
+		t_in["direction"] = train[t_in["id"]].getDirection()
+		t_in["speed"] = train[t_in["id"]].getSpeed()
+	with open('config.json', 'w') as outfile:
+		json.dump(data, outfile,indent=4)
+
 updateSignals()
 
 while 1:
@@ -191,6 +197,7 @@ while 1:
 			pass
 		else: 
 			handleSensorUpdate(message,sensor[address])
+			rewriteConfig(data)
 	
 	message = redis.lpop('trains')
 	if (message):
@@ -204,6 +211,7 @@ while 1:
 			pass
 		else: 
 			handleTrainUpdate(message,train[address],instruction,data)
+			rewriteConfig(data)
 
 # TASK 2
 # Set a signal to allow a train into the next section

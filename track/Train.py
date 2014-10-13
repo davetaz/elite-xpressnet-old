@@ -15,6 +15,7 @@ Constructor:
         self.sensorCount = sensor_count
 	self.sections = []
 	self.speed = 0
+	self.direction = "f"
 
     def getId(self):
 	return self.id
@@ -26,6 +27,12 @@ Constructor:
     def getSections(self):
         """Method docstring."""
         return self.sections
+
+    def getSectionsArray(self):
+	array = []
+	for section in self.sections:
+		array.append(section.getId())
+	return array
 
     def addSection(self,section):
 	self.sections.append(section)
