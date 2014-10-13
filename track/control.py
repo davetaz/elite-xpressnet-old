@@ -204,13 +204,13 @@ while 1:
 		bits = message.split(',')
 		address = int(bits[0])
 		instruction = bits[1]
-		data = bits[2]
+		datablob = bits[2]
 		try: 
 			train[address]
 		except:
 			pass
 		else: 
-			handleTrainUpdate(message,train[address],instruction,data)
+			handleTrainUpdate(message,train[address],instruction,datablob)
 			rewriteConfig(data)
 
 # TASK 2
