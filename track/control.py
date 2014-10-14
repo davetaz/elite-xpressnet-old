@@ -180,6 +180,10 @@ def rewriteConfig(data):
 		t_in["sections"] = train[t_in["id"]].getSectionsArray()
 		t_in["direction"] = train[t_in["id"]].getDirection()
 		t_in["speed"] = train[t_in["id"]].getSpeed()
+
+	for s_in in data["signals"]:
+		s_in["color"] = signal[s_in["id"]].getColor()
+	
 	with open('config.json', 'w') as outfile:
 		json.dump(data, outfile,indent=4)
 

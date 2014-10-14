@@ -16,6 +16,28 @@ function add_section_box(id,x,y) {
 	var html = '<div id="sectionText' + id + '" style="position:absolute; left: '+x+'px; top:'+y+'px; border: 1px solid black; border-radius: 5px; padding: 2px 5px 2px 5px; width: 40px; height: 20px; color: white; background-color: black;">T----</div>';
 	canvas.insertAdjacentHTML('beforeEnd',html);
 }
+function addForwardSignalBreakout(id,x,y) {
+	var canvas = document.getElementById('static');
+	var context = canvas.getContext('2d');
+	context.moveTo(x,y);
+	context.lineTo(x,y-16);
+	context.lineTo(x+16,y-16);
+	context.lineWidth = 1;
+	context.strokeStyle = 'black';
+	context.stroke();
+}
+function addReverseSignalBreakout(id,x,y) {
+	var canvas = document.getElementById('static');
+	var context = canvas.getContext('2d');
+	context.moveTo(x,y);
+	context.lineTo(x,y+16);
+	context.lineTo(x-16,y+16);
+	context.lineWidth = 1;
+	context.strokeStyle = 'black';
+	context.stroke();
+}
+
+
 function clear_section_box(id) {
 	var box = document.getElementById('sectionText'+id);
 	box.innerHTML = "T----"

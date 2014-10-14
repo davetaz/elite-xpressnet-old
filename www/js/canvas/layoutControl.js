@@ -30,6 +30,16 @@ function drawLayout() {
 	for (i=1;i<=sections;i++) {
 		drawSection(i,'black');
 	}
+	
+	addForwardSignal("33,B,16",250,90,"white");
+	addForwardSignalBreakout(1,250,90);
+	addForwardSignal("32,B,16",600,90,"white");
+	addForwardSignalBreakout(1,600,90);
+	
+	addReverseSignal("32,B,1",250+150+200+150,90+55,"white");
+	addReverseSignalBreakout(1,250+150+200+150,90+55);
+	addReverseSignal("33,B,1",250+150,90+55,"white");
+	addReverseSignalBreakout(1,250+150,90+55);
 }
 
 function updateLayout() {
@@ -48,6 +58,10 @@ function updateLayout() {
 			}
 		});
 		clearUnoccupiedSections(occupiedSections);
+		signals = data["signals"];
+		$.each(signals, function(i,signal) {
+			updateSignalColor(signal.id,signal.color);
+		});
           })
 	  .fail(function() {
           })
