@@ -17,5 +17,3 @@ TODO:
 Stop points from trying to change multiple times (output their state with above)
 
 Rewite serialisation code to get each object (Train, Sections, Signals)
-
-Add Signals to web interface
