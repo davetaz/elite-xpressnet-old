@@ -48,16 +48,15 @@ function updateLayout() {
 			}
 		});
 		clearUnoccupiedSections(occupiedSections);
-		updateLayout();
           })
 	  .fail(function() {
-		updateLayout();
           })
 }
 
 $(document).ready(function() {
 	drawLayout();
 	updateLayout();
+	setInterval(function(){updateLayout();},300);
 });
 
  

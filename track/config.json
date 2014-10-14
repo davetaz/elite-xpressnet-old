@@ -19,80 +19,80 @@
     ], 
     "signals": [
         {
-            "aspects": 3, 
-            "section": 6, 
             "placement": "R", 
+            "section": 6, 
+            "aspects": 3, 
             "id": "32,B,1", 
             "pinOut": "2A,R,A,G"
         }, 
         {
-            "aspects": 2, 
-            "section": 3, 
             "placement": "F", 
+            "section": 3, 
+            "aspects": 2, 
             "id": "32,B,16", 
             "pinOut": "G,A,R,2A"
         }, 
         {
-            "aspects": 2, 
-            "section": 4, 
             "placement": "R", 
+            "section": 4, 
+            "aspects": 2, 
             "id": "33,B,1", 
             "pinOut": "2A,R,A,G"
         }, 
         {
-            "aspects": 3, 
-            "section": 1, 
             "placement": "F", 
+            "section": 1, 
+            "aspects": 3, 
             "id": "33,B,16", 
             "pinOut": "G,A,R,2A"
         }
     ], 
     "trains": [
         {
-            "speed": 0, 
-            "direction": "F", 
             "sections": [
                 1
             ], 
+            "direction": "F", 
+            "speed": 0, 
             "sensor_count": 2, 
             "id": 3
         }
     ], 
     "gpio": [
         {
+            "pi_id": 1, 
+            "address": "32", 
             "id": "32,A", 
             "bank": "A", 
-            "mode": "input", 
-            "pi_id": 1, 
-            "address": "32"
+            "mode": "input"
         }, 
         {
+            "pi_id": 1, 
+            "address": "32", 
             "id": "32,B", 
             "bank": "B", 
-            "mode": "output", 
-            "pi_id": 1, 
-            "address": "32"
+            "mode": "output"
         }, 
         {
+            "pi_id": 1, 
+            "address": "33", 
             "id": "33,A", 
             "bank": "A", 
-            "mode": "input", 
-            "pi_id": 1, 
-            "address": "33"
+            "mode": "input"
         }, 
         {
+            "pi_id": 1, 
+            "address": "33", 
             "id": "33,B", 
             "bank": "B", 
-            "mode": "output", 
-            "pi_id": 1, 
-            "address": "33"
+            "mode": "output"
         }, 
         {
+            "pi_id": 1, 
+            "address": "34", 
             "id": "34,A", 
             "bank": "A", 
-            "mode": "output", 
-            "pi_id": 1, 
-            "address": "34"
+            "mode": "output"
         }
     ], 
     "sensors": [
@@ -171,11 +171,11 @@
                 3, 
                 4
             ], 
+            "turnoutId": "34,A,4", 
             "id": 2, 
             "reverse": [
                 1
-            ], 
-            "turnoutId": "34,A,4"
+            ]
         }, 
         {
             "directions": "F", 
@@ -202,12 +202,12 @@
             "forward": [
                 6
             ], 
+            "turnoutId": "34,A,1", 
             "id": 5, 
             "reverse": [
                 3, 
                 4
-            ], 
-            "turnoutId": "34,A,1"
+            ]
         }, 
         {
             "directions": "B", 

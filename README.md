@@ -14,6 +14,8 @@ Loco 3 only at the moment
 
 TODO:
 
-Rewite serialisation code to get each object (Train, Sections, Signals)
 Stop points from trying to change multiple times (output their state with above)
-Get directional control working from web interface
+
+Rewite serialisation code to get each object (Train, Sections, Signals)
+
+Add Signals to web interface
