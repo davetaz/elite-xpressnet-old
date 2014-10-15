@@ -14,6 +14,4 @@ Loco 3 only at the moment
 
 TODO:
 
-Stop points from trying to change multiple times (output their state with above)
-
-Rewite serialisation code to get each object (Train, Sections, Signals)
+[ON HOLD] Rewite serialisation code to get each object (Train, Sections, Signals)
