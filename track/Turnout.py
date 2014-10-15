@@ -16,6 +16,7 @@ Constructor:
         self.sectionID = section_id
 	self.redis = redis
 	self.action_queue = action_queue
+	self.connected = 0
 
     def getId(self):
 	return self.id
@@ -31,9 +32,8 @@ Constructor:
         return self.sectionID
 
     def setConnected(self,sectionNum):
-	if (self.connected == sectionNum) {
-		return;
-	}
+	if (self.connected == sectionNum): 
+		return
 	self.getRedisMQ().rpush(self.getActionQueue(),'"' + self.getId() + '",' + str(sectionNum));
 	self.connected = sectionNum	
     
