@@ -1,6 +1,8 @@
 //TODO - Not allow closing of active locos
 //FIXME - Speed, Function and Direction feedback, there is a massive race condition, well done Dave! 
 
+directionLock = [];
+currentDirection = []; 
 
 $.ajaxSetup ({
     // Disable caching of AJAX responses
@@ -9,7 +11,8 @@ $.ajaxSetup ({
 
 $(document).ready(function() {
 	display_3_only();
-//	loco_monitor();
+	loco_monitor();
+	setInterval(function(){loco_monitor();},500);
 	register_event_handlers();
 });
 
@@ -19,12 +22,24 @@ function display_3_only() {
 	}
 }
 
+function lockDirection(loco) {
+	console.log("locking " + loco);
+	directionLock[loco] = true;
+}
+
+function unlockDirection(loco) {
+	console.log("unlocking " + loco);
+	directionLock[loco] = false;
+}
+
 function register_event_handlers() {
 	$("a").click(function(event) {
     		id = this.id;
 		bits = id.split('_');
 		if (bits[0] == "reverse" || bits[0] == "forward") {
 			set_direction(bits[0],bits[1],this);
+			lockDirection(bits[1]);
+			setTimeout(function(){unlockDirection(bits[1]);},3000);
 		}
 		if (bits[0] == "hide") {
 			node = "loco_" + bits[1];
@@ -33,11 +48,32 @@ function register_event_handlers() {
 	});
 }
 
+function requestDirectionChange(loco,direction) {
+	if (direction == "forward") {
+		direction = "F";
+	} else if (direction == "reverse") {
+		direction = "R";
+	} else {
+		return;
+	}
+	console.log('reqested');
+	$.post("server.php", { "loco": loco, "direction": direction })
+		.done(function(data) {
+			console.log(data);
+		});
+}
+
 function set_direction(direction,loco,element) {
-	if (direction == "f") {
+	if (directionLock[loco]) {
+		return;
+	}
+	if (direction != currentDirection[loco]) {
+		requestDirectionChange(loco,direction);
+	}
+	if (direction == "F" || direction == "f") {
 		direction = "forward";
 	}
-	if (direction == "r") {
+	if (direction == "R" || direction == "r") {
 		direction = "reverse";
 	}
 	if (element == null) {
@@ -61,9 +97,10 @@ for (i=3;i<128;i++) {
 }
 
 function loco_monitor() {
-	$.ajax('data/locos.json')
+	$.ajax('data/config.json')
 	  .done(function(data) {
-		$.each(data, function(i, obj) {
+		trains = data["trains"];
+		$.each(trains, function(i, obj) {
 			node_id = "loco_" + obj.id;
 			if (!$("#"+node_id).is(':visible') && obj.speed > 0) {
 				$("#"+node_id).fadeIn('slow');
@@ -73,11 +110,10 @@ function loco_monitor() {
 				$('#speed-'+obj.id).slider('refresh');
 				prev[obj.id] = 	obj.speed;
 			}
-			set_direction(obj.direction,obj.id,null);	
+			set_direction(obj.direction,obj.id,null);
+			currentDirection[obj.id] = obj.direction;
 		});
-		loco_monitor();
           })
 	  .fail(function() {
-		loco_monitor();
           })
 }

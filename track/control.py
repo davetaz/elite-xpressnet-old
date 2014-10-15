@@ -180,6 +180,10 @@ def rewriteConfig(data):
 		t_in["sections"] = train[t_in["id"]].getSectionsArray()
 		t_in["direction"] = train[t_in["id"]].getDirection()
 		t_in["speed"] = train[t_in["id"]].getSpeed()
+
+	for s_in in data["signals"]:
+		s_in["color"] = signal[s_in["id"]].getColor()
+	
 	with open('config.json', 'w') as outfile:
 		json.dump(data, outfile,indent=4)
 
@@ -204,13 +208,13 @@ while 1:
 		bits = message.split(',')
 		address = int(bits[0])
 		instruction = bits[1]
-		data = bits[2]
+		datablob = bits[2]
 		try: 
 			train[address]
 		except:
 			pass
 		else: 
-			handleTrainUpdate(message,train[address],instruction,data)
+			handleTrainUpdate(message,train[address],instruction,datablob)
 			rewriteConfig(data)
 
 # TASK 2
