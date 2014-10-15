@@ -53,7 +53,10 @@ Constructor:
     
     def setCurrentForwardSection(self, section):
 	self.forwardSection = section
-    
+   
+    def getCurrentForwardSectionId(self):
+	return self.forwardSection.getId();
+ 
     def getForwardSection(self):
 	try: 
 		self.forwardSection
@@ -70,6 +73,9 @@ Constructor:
 
     def setCurrentReverseSection(self, section):
 	self.reverseSection = section
+    
+    def getCurrentReverseSectionId(self):
+	return self.reverseSection.getId();
     
     def getReverseSection(self):
 	try:

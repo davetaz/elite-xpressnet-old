@@ -54,8 +54,7 @@ for s in section:
 	else:
 		section[s].autoConnectSections()
 for s in sec_buffer:
-	s.autoConnectSections()
-	
+	s.autoConnectSections()	
 	
 # Setup sensors and add these to sections
 for s_in in data["sensors"]:
@@ -183,7 +182,15 @@ def rewriteConfig(data):
 
 	for s_in in data["signals"]:
 		s_in["color"] = signal[s_in["id"]].getColor()
-	
+
+	for s_in in data["sections"]:
+		s_in["currentForwardSection"] = section[s_in["id"]].getCurrentForwardSectionId()
+		s_in["currentReverseSection"] = section[s_in["id"]].getCurrentReverseSectionId()
+		s_in["currentDirection"] = section[s_in["id"]].getCurrentDirection()
+
+	for t_in in data["turnouts"]:
+		t_in["connected"] = turnout[t_in["id"]].getConnected()
+		
 	with open('config.json', 'w') as outfile:
 		json.dump(data, outfile,indent=4)
 
