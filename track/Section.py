@@ -8,7 +8,7 @@ Constructor:
 
 """
 
-    def __init__(self, id_in, directions):
+    def __init__(self, id_in, directions, initialDirection):
         """Method docstring."""
 	self.id = id_in
         self.directions = directions
@@ -16,6 +16,8 @@ Constructor:
 		self.currentDirection = directions
 	else: 
 		self.currentDirection = "F"
+	if (initialDirection):
+		self.currentDirection = initialDirection;
 	self.sensors = []
 	self.signals = []
 	self.forwardSections = []

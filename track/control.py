@@ -22,7 +22,11 @@ train = {}
 
 # Set up Sections
 for s_in in data["sections"]:
-	section[s_in["id"]] = Section(s_in["id"],s_in["directions"])
+	try:
+		s_in["currentDirection"]
+	except:
+		s_in["currentDirection"] = False
+	section[s_in["id"]] = Section(s_in["id"],s_in["directions"],s_in["currentDirection"])
 	sections[section[s_in["id"]]] = 1
 
 for s_in in data["turnouts"]:
@@ -64,7 +68,11 @@ for s_in in data["sensors"]:
 # Setup signals and add these to sections
 for s_in in data["signals"]:
 	signal[s_in["id"]] = Signal(s_in["id"],s_in["section"],s_in["placement"],s_in["aspects"],redis,"signal_action")
-	signal[s_in["id"]].setColor("red")
+	try:
+		s_in["color"] != ""
+		signal[s_in["id"]].setColor(s_in["color"])
+	except:
+		signal[s_in["id"]].setColor("red")
 	section[s_in["section"]].addSignal(signal[s_in["id"]])
 
 # Setup train locations, adding sections as references
