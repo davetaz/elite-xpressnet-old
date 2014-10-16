@@ -176,10 +176,15 @@ def handleTrainUpdate(message,train,instruction,data):
 	print ""
 	print "" 
 	if (instruction == "Direction"):
-		train.setDirection(data)
 		sections = train.getSections()
+		can_change = True
 		for section in sections:
-			section.setCurrentDirection(data)
+			if (section.getDirections() != "B" and section.getDirections() != data):
+				can_change = False
+		if can_change:
+			for section in sections:
+				section.setCurrentDirection(data)
+			train.setDirection(data)
 	updateSignals()
 
 def rewriteConfig(data):

@@ -148,7 +148,8 @@ Constructor:
 	print "Trying to set direction of section " + str(self.getId()) + " to " + direction 
 	nextSection = self.getNextSection();
 	if (nextSection):
-		if (self.getDirections() == "B" and self.getTurnoutSection() == False and (nextSection.getDirections() == "B" or nextSection.getDirections() == direction)):
+#		if (self.getDirections() == "B" and self.getTurnoutSection() == False and (nextSection.getDirections() == "B" or nextSection.getDirections() == direction)):
+		if (self.getTurnoutSection() == False):
 			print "[NO TURNOUT] Setting direction for " + str(self.getId()) + " to " + direction
 			self.currentDirection = direction
 		if (self.getDirections() == "B" and self.getTurnoutSection() == True):
