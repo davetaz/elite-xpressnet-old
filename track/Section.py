@@ -57,7 +57,12 @@ Constructor:
 	self.forwardSection = section
    
     def getCurrentForwardSectionId(self):
-	return self.forwardSection.getId();
+	try:
+		self.forwardSection
+	except:
+		return
+	else:
+		return self.forwardSection.getId();
  
     def getForwardSection(self):
 	try: 
@@ -77,7 +82,12 @@ Constructor:
 	self.reverseSection = section
     
     def getCurrentReverseSectionId(self):
-	return self.reverseSection.getId();
+	try:
+		self.reverseSection
+	except:
+		return
+	else:
+		return self.reverseSection.getId();
     
     def getReverseSection(self):
 	try:
