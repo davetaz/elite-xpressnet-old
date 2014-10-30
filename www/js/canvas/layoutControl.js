@@ -1,4 +1,4 @@
-sections = 10;
+sections = 11;
 
 $.ajaxSetup ({
     // Disable caching of AJAX responses
@@ -11,6 +11,48 @@ function drawSection(id,color) {
     context.lineWidth = 5;
     context.strokeStyle = color;
     context.stroke();
+}
+
+function tpLayoutF() {
+	tpLayoutE();
+	sections = 11;
+	
+	strait_section(8,340,190,240);
+	left_turnout_down(6,580,190);
+	strait_section_free(9,350,350,505,210);
+	
+	add_section_box(8,410,190);
+	add_section_box(9,410,290);
+
+	sectionMarker(7,580,182);	
+	sectionMarker(7,540,182);	
+	sectionMarker(8,490,182);	
+	sectionMarker(8,490,210);	
+	sectionMarker(8,470,182);	
+	sectionMarker(9,470,227);	
+	sectionMarker(9,356,330);	
+
+	addForwardSignal("36,B,1",530,225,"white");
+	addForwardSignalBreakout(1,530,225,180);	
+	addForwardSignal("37,B,1",493,188,"white");
+	addForwardSignalBreakout(7,488,188,0);	
+	addForwardSignal("38,B,1",477,220,"white");
+	addForwardSignalBreakout(7,477,220,-45);	
+
+	
+
+
+/*	
+	addForwardSignal("36,B,16",645,575,"white");
+	addForwardSignalBreakout(7,645,575,180);	
+	addForwardSignal("37,B,16",645,575,"white");
+	addForwardSignalBreakout(7,645,575,180);	
+	addForwardSignal("38,B,16",645,575,"white");
+	addForwardSignalBreakout(7,645,575,180);	
+*/	
+	for (i=1;i<=sections;i++) {
+		drawSection(i,'black');
+	}
 }
 
 function tpLayoutE() {
@@ -45,9 +87,18 @@ function tpLayoutD() {
 	first_degree(6,630,90,1.5);
 	first_degree(6,630,90,1.75);
 	first_degree(6,630,90,0);
-	strait_section(6,430,190,200);
-	strait_section_free(6,660,420,708,378);
+	strait_section(6,340,190,290);
+	strait_section_free(5,660,420,708,378);
 	
+	sectionMarker(5,660,405);
+	sectionMarker(6,350,183);	
+	sectionMarker(6,715,355);	
+	
+	add_section_box(6,730,300);
+	
+	// End of bottom right arc
+	addForwardSignal("35,B,16",690,420,"white");
+	addForwardSignalBreakout(6,690,420,135);
 	
 	for (i=1;i<=sections;i++) {
 		drawSection(i,'black');
