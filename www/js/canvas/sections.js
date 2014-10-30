@@ -3,12 +3,56 @@ for (i=1;i<=sections;i++) {
 	sectionIsOccupied[i] = false;
 }
 
-function strait_section(id,x,y) {
+function goTo(id,x,y) {
 	var canvas = document.getElementById('canvas' + id);
 	var context = canvas.getContext('2d');
 	context.moveTo(x,y);
-	context.lineTo(x+200,y);
 }
+
+function strait_section(id,x,y,length) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	context.moveTo(x,y);
+	context.lineTo(x+length,y);
+}
+
+function strait_section_free(id,x,y,to_x,to_y) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	context.moveTo(x,y);
+	context.lineTo(to_x,to_y);
+}
+
+function third_degree(id,x,y,angle) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	angle2 = angle + 0.25;
+	if (angle2 == 2) {
+		angle2 = 0;
+	}
+	context.arc(x,y+200,200,(Math.PI * angle),(Math.PI * angle2),false);
+}
+
+function second_degree(id,x,y,angle) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	angle2 = angle + 0.25;
+	if (angle2 == 2) {
+		angle2 = 0;
+	}
+	context.arc(x,y+205,145,(Math.PI * angle),(Math.PI * angle2),false);
+}
+
+function first_degree(id,x,y,angle) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	angle2 = angle + 0.25;
+	if (angle2 == 2) {
+		angle2 = 0;
+	}
+	context.arc(x,y+210,110,(Math.PI * angle),(Math.PI * angle2),false);
+}
+
 function add_section_box(id,x,y) {
 	x = x - 15;
 	y = y - 15;
@@ -16,27 +60,12 @@ function add_section_box(id,x,y) {
 	var html = '<div id="sectionText' + id + '" style="position:absolute; left: '+x+'px; top:'+y+'px; border: 1px solid black; border-radius: 5px; padding: 2px 5px 2px 5px; width: 40px; height: 20px; color: white; background-color: black;">T----</div>';
 	canvas.insertAdjacentHTML('beforeEnd',html);
 }
-function addForwardSignalBreakout(id,x,y) {
-	var canvas = document.getElementById('static');
-	var context = canvas.getContext('2d');
-	context.moveTo(x,y);
-	context.lineTo(x,y-16);
-	context.lineTo(x+16,y-16);
-	context.lineWidth = 1;
-	context.strokeStyle = 'black';
-	context.stroke();
-}
-function addReverseSignalBreakout(id,x,y) {
-	var canvas = document.getElementById('static');
-	var context = canvas.getContext('2d');
-	context.moveTo(x,y);
-	context.lineTo(x,y+16);
-	context.lineTo(x-16,y+16);
-	context.lineWidth = 1;
-	context.strokeStyle = 'black';
-	context.stroke();
-}
 
+function sectionMarker(id,x,y) {
+	var canvas = document.getElementById('static');
+	var context = canvas.getContext('2d');
+	context.rect(x,y,15,15);
+}
 
 function clear_section_box(id) {
 	var box = document.getElementById('sectionText'+id);

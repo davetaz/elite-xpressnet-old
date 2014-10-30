@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="js/canvas/layoutControl.js"></script>
+    <script type="text/javascript" src="js/canvas/turnouts.js"></script>
+    <script type="text/javascript" src="js/canvas/sections.js"></script>
+    <script type="text/javascript" src="js/canvas/signals.js"></script>
+    <script type="text/javascript">
+	$(document).ready(function() {
+		tpLayoutB();
+//		updateLayout();
+//		setInterval(function(){updateLayout();},300);
+	});
+    </script>
+  </head>
+  <body id="body">
+    <canvas id="static" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="canvas1" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="canvas2" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="canvas3" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="canvas4" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="signal33,B,16" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="signal32,B,16" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="signal33,B,1" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="signal32,B,1" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
+  </body>
+</html>  

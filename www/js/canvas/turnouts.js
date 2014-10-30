@@ -8,12 +8,10 @@ function left_turnout_up(id,x,y) {
 	var context = canvas.getContext('2d');
 	context.moveTo(x,y);
 	context.lineTo(x-30,y);
-	context.quadraticCurveTo(x-50,y,x-60,y-15);
-	context.lineTo(x-80,y-40);     
-	context.quadraticCurveTo(x-90,y-55,x-110,y-55);
-	context.lineTo(x-150,y-55);
+	context.lineTo(x-100,y);
 	context.moveTo(x-30,y);
-	context.lineTo(x-150,y);
+	context.quadraticCurveTo(x-50,y,x-70,y-15);
+	context.lineTo(x-76,y-21);     
 }
 
 /*
@@ -26,12 +24,10 @@ function left_turnout_down(id,x,y) {
 	var context = canvas.getContext('2d');
 	context.moveTo(x,y);
 	context.lineTo(x-30,y);
-	context.quadraticCurveTo(x-50,y,x-60,y+15);
-	context.lineTo(x-80,y+40);     
-	context.quadraticCurveTo(x-90,y+55,x-110,y+55);
-	context.lineTo(x-150,y+55);
+	context.lineTo(x-100,y);
 	context.moveTo(x-20,y);
-	context.lineTo(x-150,y);
+	context.quadraticCurveTo(x-50,y,x-70,y+15);
+	context.lineTo(x-76,y+21);   
 }
 
 /*
@@ -44,12 +40,10 @@ function right_turnout_down(id,x,y) {
 	var context = canvas.getContext('2d');
 	context.moveTo(x,y);
 	context.lineTo(x+30,y);
-	context.quadraticCurveTo(x+50,y,x+60,y+15);
-	context.lineTo(x+80,y+40);     
-	context.quadraticCurveTo(x+90,y+55,x+110,y+55);
-	context.lineTo(x+150,y+55);
+	context.lineTo(x+100,y);
 	context.moveTo(x+30,y);
-	context.lineTo(x+150,y);
+	context.quadraticCurveTo(x+50,y,x+70,y+15);
+	context.lineTo(x+76,y+21);
 }
 
 /*
@@ -62,10 +56,8 @@ function right_turnout_up(id,x,y) {
 	var context = canvas.getContext('2d');
 	context.moveTo(x,y);
 	context.lineTo(x+30,y);
-	context.quadraticCurveTo(x+50,y,x+60,y-15);
-	context.lineTo(x+80,y-40);     
-	context.quadraticCurveTo(x+90,y-55,x+110,y-55);
-	context.lineTo(x+150,y-55);
+	context.lineTo(x+100,y);
 	context.moveTo(x+30,y);
-	context.lineTo(x+150,y);
+	context.quadraticCurveTo(x+50,y,x+70,y-15);
+	context.lineTo(x+76,y-21);    
 }
