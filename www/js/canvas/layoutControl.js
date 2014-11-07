@@ -257,7 +257,7 @@ function tpBasic() {
 }
 
 
-function drawLayout() {
+function endtoend() {
 	sections = 6;
 	strait_section(1,50,90,200);
 	add_section_box(1,150,90);

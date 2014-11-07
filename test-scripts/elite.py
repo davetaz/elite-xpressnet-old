@@ -66,9 +66,9 @@ def test(message):
 	for c in message: print(c)
 
 
-#print "Loco: " + sys.argv[1]
-#print "Direction: " + sys.argv[2]
-#print "Speed: " + sys.argv[3]
+print "Loco: " + sys.argv[1]
+print "Direction: " + sys.argv[2]
+print "Speed: " + sys.argv[3]
 #setThrottle(3,"b",0);
-#setThrottle(int(sys.argv[1]),sys.argv[2],int(sys.argv[3]));
+setThrottle(int(sys.argv[1]),sys.argv[2],int(sys.argv[3]));
 getFirmwareVersion()

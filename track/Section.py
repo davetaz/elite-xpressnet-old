@@ -24,6 +24,7 @@ Constructor:
 	self.reverseSections = []
 	self.turnout = None
 	self.isTurnout = False
+	self.maxSpeed = 0
 
     def getId(self):
 	return self.id
@@ -205,7 +206,7 @@ Constructor:
         """Method docstring."""
         self.maxSpeed = speed
     
-    def getMaxSpeed(self, speed):
+    def getMaxSpeed(self):
         """Method docstring."""
         return self.maxSpeed
 
@@ -233,6 +234,8 @@ Constructor:
 		pass
 
     def updateSignals(self):
+	clearSections = []
+	self.setMaxSpeed(len(self.getAllClearSectionsDirection(clearSections,self.currentDirection)))
 	if (len(self.getSignals()) < 1):	
 		return
 	opposite = "F"
@@ -292,6 +295,21 @@ Constructor:
 		return nextSection.getSectionsDirection(connectedSections,direction)
 	else:
 		return connectedSections
+    
+    def getAllClearSectionsDirection(self,clearSections,direction):
+	print "Getting all clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
+	nextSection = self.getSection(direction);
+	if (nextSection):
+		print "checking section " + str(nextSection.getId())
+		if (nextSection.isOccupied() or (nextSection.getCurrentDirection() != self.getCurrentDirection())):
+			return clearSections
+		else:
+			clearSections.append(nextSection)
+			print ("Appeded " + str(nextSection.getId()) + " count " + str(len(clearSections)))
+			return nextSection.getAllClearSectionsDirection(clearSections,direction)
+	else:
+		print "No next section!"
+		return clearSections
 
     def getClearSectionsDirection(self,clearSections,direction):
 	print "Getting clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction

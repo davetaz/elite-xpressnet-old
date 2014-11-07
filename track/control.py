@@ -167,7 +167,7 @@ def handleSensorUpdate(message,sensor):
 			except:
 				pass
 			updateSignals()
-			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection()
+			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection() + " new max speed = " + str(section.getMaxSpeed());
 
 
 # Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)

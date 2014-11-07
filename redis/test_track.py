@@ -6,21 +6,46 @@ import sys
 from time import sleep
 
 r = redis.Redis()
-
-print "Activting first sensor in section 2 (32,A,4), first time"
-r.rpush("sensors","32,A,4")
-sleep(5)
-print "Activting first sensor in section 2 (32,A,4), second time"
-r.rpush("sensors","32,A,4")
-sleep(5)
-print "Reverse direction of train to face reverse"
-r.rpush("trains","3,Direction,R")
-sleep(5)
-print "Activting first sensor in section 1 (32,A,2), first time"
-r.rpush("sensors","32,A,2")
-sleep(5)
-print "Activting first sensor in section 1 (32,A,4), second time"
-r.rpush("sensors","32,A,2")
-sleep(5)
-print "Reverse direction of train to face forward again"
+print "Setting direction of T003 to forward"
 r.rpush("trains","3,Direction,F")
+sleep(5)
+print "Activting first sensor in section 2 (33,A,16), first time"
+r.rpush("sensors","33,A,16")
+sleep(5)
+print "Activting first sensor in section 2 (33,A,16), second time"
+r.rpush("sensors","33,A,16")
+sleep(5)
+print "Activting first sensor in section 3 (33,A,32), first time"
+r.rpush("sensors","33,A,32")
+sleep(5)
+print "Activting first sensor in section 3 (33,A,32), second time"
+r.rpush("sensors","33,A,32")
+sleep(5)
+print "activting second sensor in section 3 (32,a,32), first time"
+r.rpush("sensors","32,A,32")
+sleep(5)
+print "Activting first sensor in section 5 (33,A,16), first time"
+r.rpush("sensors","32,A,16")
+sleep(5)
+print "activting second sensor in section 3 (32,A,32), second time"
+r.rpush("sensors","32,A,32")
+sleep(5)
+print "Activting first sensor in section 5 (33,A,16), second time"
+r.rpush("sensors","32,A,16")
+sleep(5)
+print "Activting second sensor in section 5 (32,A,4), first time"
+r.rpush("sensors","32,A,4")
+sleep(5)
+print "Activting first sensor in section 6 (33,A,2), first time"
+r.rpush("sensors","32,A,2")
+sleep(5)
+print "Activting second sensor in section 5 (32,A,4), second time"
+r.rpush("sensors","32,A,4")
+sleep(5)
+print "Activting first sensor in section 6 (33,A,2), second time"
+r.rpush("sensors","32,A,2")
+sleep(5)
+print "Activting second sensor in section 6 (33,A,1), ONLY time"
+r.rpush("sensors","32,A,1")
+sleep(5)
+

@@ -30,7 +30,7 @@
         }, 
         {
             "aspects": 2, 
-            "color": "amber", 
+            "color": "red", 
             "section": 3, 
             "pinOut": "G,A,R,2A", 
             "placement": "F", 
@@ -46,7 +46,7 @@
         }, 
         {
             "aspects": 3, 
-            "color": "green", 
+            "color": "amber", 
             "section": 1, 
             "pinOut": "G,A,R,2A", 
             "placement": "F", 
@@ -59,7 +59,8 @@
             "speed": 0, 
             "sensor_count": 2, 
             "sections": [
-                1
+                5, 
+                6
             ], 
             "id": 3
         }
