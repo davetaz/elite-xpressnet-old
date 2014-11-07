@@ -13,24 +13,32 @@
     <script type="text/javascript" src="js/canvas/sections.js"></script>
     <script type="text/javascript" src="js/canvas/signals.js"></script>
     <script type="text/javascript">
+    function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(location.search);
+	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 	$(document).ready(function() {
-		drawLayout();
+		for (i=0;i<12;i++) {
+			var canvas = '<canvas id="canvas'+i+'" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>';
+			$("#body").append(canvas);
+		}
+		for (i=32;i<39;i++) {
+			var canvas = '<canvas id="signal'+i+',B,1" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>';
+			$("#body").append(canvas);
+			var canvas = '<canvas id="signal'+i+',B,16" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>';
+			$("#body").append(canvas);
+		}
+		var layout = getParameterByName('layout');
+		window[layout]();
+//		drawLayout();
 		updateLayout();
 		setInterval(function(){updateLayout();},300);
 	});
     </script>
   </head>
   <body id="body">
-    <canvas id="static" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas1" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas2" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas3" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas4" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas5" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="canvas6" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="signal33,B,16" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="signal32,B,16" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="signal33,B,1" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
-    <canvas id="signal32,B,1" width="1280" height="200" style="position: absolute; top: 0px; left: 0px;"></canvas>
+    <canvas id="static" width="1280" height="1280" style="position: absolute; top: 0px; left: 0px;"></canvas>
   </body>
 </html>  
