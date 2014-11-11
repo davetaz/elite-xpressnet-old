@@ -310,6 +310,12 @@ function updateLayout() {
 		$.each(signals, function(i,signal) {
 			updateSignalColor(signal.id,signal.color);
 		});
+//		sections = data["sections"];
+// Some test code to see if section speeds are updated ok
+//		$.each(sections, function(i,section) {
+//			update_section_box(sections[i].id,sections[i].currentMaxSpeed,sections[i].currentDirection);
+//		});
+// END TEST
           })
 	  .fail(function() {
           })

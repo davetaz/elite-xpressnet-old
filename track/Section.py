@@ -38,14 +38,14 @@ Constructor:
         self.directions = directions
 	
     def getSection(self, direction):
-	print "retrieving next section to " + str(self.getId()) + " in direction " + direction
+#	print "retrieving next section to " + str(self.getId()) + " in direction " + direction
 	if (direction == "F"):
 		return self.getForwardSection()
 	if (direction == "R"):
 		return self.getReverseSection()
 
     def setTurnout(self, turnout):
-	print "setting turnout for section " + str(self.getId())
+#	print "setting turnout for section " + str(self.getId())
 	self.turnout = turnout 
 
     def getTurnout(self):
@@ -112,22 +112,22 @@ Constructor:
 		self.setTurnoutSection(True)
 	if (len(self.getReverseSections()) == 1):
 		prev_section = self.getReverseSections()[0]
-		print "[TURNOUT] Connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+#		print "[TURNOUT] Connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
 		self.setCurrentReverseSection(prev_section)
 	else:
 		for prev_section in self.getReverseSections():
 			if (prev_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
+#				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(prev_section.getId());
 				self.getTurnout().setConnected(prev_section.getId());
 				self.setCurrentReverseSection(prev_section)
 	if (len(self.getForwardSections()) == 1):
 		next_section = self.getForwardSections()[0]
-		print "connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
+#		print "connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
 		self.setCurrentForwardSection(next_section)
 	else:
 		for next_section in self.getForwardSections():
 			if (next_section.getCurrentDirection() == self.getCurrentDirection()):
-				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
+#				print "[NEED TO SET TURNOUT] connecting section " + str(self.getId()) + " to section " + str(next_section.getId());
 				self.getTurnout().setConnected(next_section.getId());
 				self.setCurrentForwardSection(next_section)
 	
@@ -145,23 +145,23 @@ Constructor:
 
     def setCurrentDirection(self, direction):
         """Checks to see if section direction can be changed!"""
-	print ""
-	print "Trying to set direction of section " + str(self.getId()) + " to " + direction 
+#	print ""
+#	print "Trying to set direction of section " + str(self.getId()) + " to " + direction 
 	nextSection = self.getNextSection();
 	if (nextSection):
 #		if (self.getDirections() == "B" and self.getTurnoutSection() == False and (nextSection.getDirections() == "B" or nextSection.getDirections() == direction)):
 		if (self.getTurnoutSection() == False):
-			print "[NO TURNOUT] Setting direction for " + str(self.getId()) + " to " + direction
+#			print "[NO TURNOUT] Setting direction for " + str(self.getId()) + " to " + direction
 			self.currentDirection = direction
 		if (self.getDirections() == "B" and self.getTurnoutSection() == True):
-			print "[TURNOUT] Need to autoconnect to the right section"
+#			print "[TURNOUT] Need to autoconnect to the right section"
 			self.currentDirection = direction
 			self.autoConnectSections()
 			nextSection = self.getNextSection()
 			nextSection.setCurrentDirection(direction)
 	else:
 		if (self.getDirections() == "B" and self.getTurnoutSection() == False):
-			print "NO TURNOUT Setting direction for " + str(self.getId()) + " to " + direction
+#			print "NO TURNOUT Setting direction for " + str(self.getId()) + " to " + direction
 			self.currentDirection = direction
 	
 	
@@ -173,8 +173,8 @@ Constructor:
 		if (nextSection.getCurrentDirection() != self.getCurrentDirection()):
 			clearSections = nextSection.getClearSectionsDirection(clearSections,direction)
 			connectedSections = nextSection.getSectionsDirection(connectedSections,direction)
-			print "Clear Sections = " + str(len(clearSections))
-			print "Connected Sections = " + str(len(connectedSections))
+#			print "Clear Sections = " + str(len(clearSections))
+#			print "Connected Sections = " + str(len(connectedSections))
 			if ((len(clearSections) == len(connectedSections)) or (len(clearSections) > 3)):	
 				nextSection.setCurrentDirection(direction)
 	
@@ -189,13 +189,14 @@ Constructor:
 		connectedSections = []
 		clearSections = self.getClearSectionsDirection(clearSections,direction)
 		connectedSections = self.getSectionsDirection(connectedSections,direction)
-		print "Clear Sections = " + str(len(clearSections))
-		print "Connected Sections = " + str(len(connectedSections))
+#		print "Clear Sections = " + str(len(clearSections))
+#		print "Connected Sections = " + str(len(connectedSections))
 	
 		if ((len(clearSections) == len(connectedSections)) or (len(clearSections) > 1)):	
 			nextSection.setCurrentDirection(direction)
 	else:
-		print "NO NEXT SECTION!"	
+		return
+#		print "NO NEXT SECTION!"	
 	
 
     def getCurrentDirection(self):
@@ -233,6 +234,11 @@ Constructor:
   	except: 
 		pass
 
+    def setSectionSpeed(self):
+	clearSections = []
+	self.setMaxSpeed(len(self.getAllClearSectionsDirection(clearSections,self.currentDirection)))
+#	print "setting max speed of section " + str(self.getId()) + " to " + str(self.getMaxSpeed())
+
     def updateSignals(self):
 	clearSections = []
 	self.setMaxSpeed(len(self.getAllClearSectionsDirection(clearSections,self.currentDirection)))
@@ -245,7 +251,7 @@ Constructor:
 	clearSections = []
 	clearSections = self.getClearSectionsDirection(clearSections,self.currentDirection)
 	clearSectionCount = len(clearSections)
-	print "Section " + str(self.getId()) + " Count " + str(clearSectionCount)
+#	print "Section " + str(self.getId()) + " Count " + str(clearSectionCount)
 	signal = self.getSignal(self.getCurrentDirection())
 	if (signal):
 		signal.setColorByCount(clearSectionCount)
@@ -297,32 +303,32 @@ Constructor:
 		return connectedSections
     
     def getAllClearSectionsDirection(self,clearSections,direction):
-	print "Getting all clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
+#	print "Getting all clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
 	nextSection = self.getSection(direction);
 	if (nextSection):
-		print "checking section " + str(nextSection.getId())
+#		print "checking section " + str(nextSection.getId())
 		if (nextSection.isOccupied() or (nextSection.getCurrentDirection() != self.getCurrentDirection())):
 			return clearSections
 		else:
 			clearSections.append(nextSection)
-			print ("Appeded " + str(nextSection.getId()) + " count " + str(len(clearSections)))
+#			print ("Appeded " + str(nextSection.getId()) + " count " + str(len(clearSections)))
 			return nextSection.getAllClearSectionsDirection(clearSections,direction)
 	else:
-		print "No next section!"
+#		print "No next section!"
 		return clearSections
 
     def getClearSectionsDirection(self,clearSections,direction):
-	print "Getting clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
+#	print "Getting clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
 	nextSection = self.getSection(direction);
 	if (nextSection):
-		print "checking section " + str(nextSection.getId())
+#		print "checking section " + str(nextSection.getId())
 		if (nextSection.isOccupied() or (nextSection.getCurrentDirection() != self.getCurrentDirection())):
 			return clearSections
 		else:
 			if (nextSection.getTurnoutSection() == False):
 				clearSections.append(nextSection)
-				print ("Appeded " + str(nextSection.getId()) + " count " + str(len(clearSections)))
+#				print ("Appeded " + str(nextSection.getId()) + " count " + str(len(clearSections)))
 			return nextSection.getClearSectionsDirection(clearSections,direction)
 	else:
-		print "No next section!"
+#		print "No next section!"
 		return clearSections

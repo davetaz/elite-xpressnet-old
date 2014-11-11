@@ -9,13 +9,15 @@ Constructor:
 	sections = The section or sections the train is currently ocupying with at least one sensor.
 
 """
-    def __init__(self, id_in, sensor_count):
+    def __init__(self, id_in, sensor_count, speeds):
         """Method docstring."""
 	self.id = id_in
         self.sensorCount = sensor_count
+	self.speeds = speeds
 	self.sections = []
-	self.speed = 0
+	self.currentSpeed = 0
 	self.direction = "f"
+
 
     def getId(self):
 	return self.id
@@ -34,17 +36,48 @@ Constructor:
 		array.append(section.getId())
 	return array
 
+    def getSpeedsArray(self):
+	return self.speeds
+
     def addSection(self,section):
 	self.sections.append(section)
+	self.autoSetSpeed()
 	
     def removeSection(self,section):
 	self.sections.remove(section)
+	self.autoSetSpeed()
+
+    def autoSetSpeed(self):
+	clearSections = 0
+	actualSpeed = 0
+	lastSection = False
+	for section in self.sections:
+		section.setSectionSpeed()
+		if section.getMaxSpeed() > clearSections:
+			clearSections = section.getMaxSpeed()
+		nextSection = section.getNextSection()
+		try:
+			sectionId = nextSection.getId()
+		except:
+			if len(self.sections) == 1:
+				lastSection = True
+	try:
+		actualSpeed = self.speeds[clearSections]
+	except: 
+		if len(self.speeds) <= clearSections:
+			actualSpeed = self.speeds[len(self.speeds)-1]
+		else:
+			actualSpeed = 0;
+	if lastSection:
+		print "LAST SECTION: STOP!!!"
+	else:		
+		print "Still moving: Setting max speed " + str(actualSpeed)
 
     def setSpeed(self,speed):
-	self.speed = speed
+	self.currentSpeed = speed
 
     def getSpeed(self):
-	return self.speed
+	return self.currentSpeed
     
     def setDirection(self,direction):
 	try: 
@@ -54,7 +87,7 @@ Constructor:
 
 	if (self.direction == direction):
 		return
-	elif (self.speed == 0):
+	elif (self.currentSpeed == 0):
 		self.direction = direction
 
     def getDirection(self):

@@ -77,7 +77,7 @@ for s_in in data["signals"]:
 
 # Setup train locations, adding sections as references
 for t_in in data["trains"]:
-	train[t_in["id"]] = Train(t_in["id"],t_in["sensor_count"])
+	train[t_in["id"]] = Train(t_in["id"],t_in["sensor_count"],t_in["speeds"])
 	for sec_in in t_in["sections"]:
 		train[t_in["id"]].addSection(section[sec_in])
 		section[sec_in].setTrain(train[t_in["id"]])
@@ -111,7 +111,7 @@ for t_in in data["trains"]:
 def updateSignals():
 	global sections
 	for s in sections:
-		print "Processing section " + str(s.getId())
+#		print "Processing section " + str(s.getId())
 		s.updateSignals()
 			
 # TASK 1
@@ -151,12 +151,13 @@ def handleSensorUpdate(message,sensor):
 	
 	if (train):
 		print "Train " + str(train.getId()) + " in section already"
+		train.autoSetSpeed()
 	else:
-		print "Need to work out which train this is!"
-		#if (section.getPreviousSection()):
+#		print "Need to work out which train this is!"
+#		if (section.getPreviousSection()):
 		train = section.getPreviousSection().getTrain()
 		if (train):
-			print "It's train " + str(train.getId()) 
+#			print "It's train " + str(train.getId()) 
 			section.setTrain(train)
 			train.addSection(section)
 			train.setDirection(section.getCurrentDirection())
@@ -167,6 +168,7 @@ def handleSensorUpdate(message,sensor):
 			except:
 				pass
 			updateSignals()
+			train.autoSetSpeed()
 			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection() + " new max speed = " + str(section.getMaxSpeed());
 
 
@@ -186,12 +188,14 @@ def handleTrainUpdate(message,train,instruction,data):
 				section.setCurrentDirection(data)
 			train.setDirection(data)
 	updateSignals()
+	train.autoSetSpeed()
 
 def rewriteConfig(data):
 	for t_in in data["trains"]:
 		t_in["sections"] = train[t_in["id"]].getSectionsArray()
 		t_in["direction"] = train[t_in["id"]].getDirection()
 		t_in["speed"] = train[t_in["id"]].getSpeed()
+		t_in["speeds"] = train[t_in["id"]].getSpeedsArray()
 
 	for s_in in data["signals"]:
 		s_in["color"] = signal[s_in["id"]].getColor()
@@ -200,6 +204,7 @@ def rewriteConfig(data):
 		s_in["currentForwardSection"] = section[s_in["id"]].getCurrentForwardSectionId()
 		s_in["currentReverseSection"] = section[s_in["id"]].getCurrentReverseSectionId()
 		s_in["currentDirection"] = section[s_in["id"]].getCurrentDirection()
+		s_in["currentMaxSpeed"] = section[s_in["id"]].getMaxSpeed()
 
 	for t_in in data["turnouts"]:
 		t_in["connected"] = turnout[t_in["id"]].getConnected()
