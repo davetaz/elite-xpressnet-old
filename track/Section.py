@@ -304,7 +304,13 @@ Constructor:
     
     def getAllClearSectionsDirection(self,clearSections,direction):
 #	print "Getting all clear sections for section " + str(self.getId()) + " has clearsections " + str(len(clearSections)) + " in direction " + direction
-	nextSection = self.getSection(direction);
+	nextSection = self.getSection(direction)
+	signal = self.getSignal(direction)
+	try:
+		if signal.getColor() == "red":
+			return clearSections
+	except:
+		pass
 	if (nextSection):
 #		print "checking section " + str(nextSection.getId())
 		if (nextSection.isOccupied() or (nextSection.getCurrentDirection() != self.getCurrentDirection())):

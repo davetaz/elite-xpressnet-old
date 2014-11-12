@@ -125,6 +125,18 @@ def handleSensorUpdate(message,sensor):
 	section = sensor.getSection()
 	train = section.getTrain()
 	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count: " + str(sensor.triggerCount)
+	if sensor.getPlacement() == section.getCurrentDirection() and train:
+		nextSection = section.getNextSection()
+		signal = section.getSignal(section.getCurrentDirection())
+		try: 
+			sectionId = nextSection.getId()
+		except:
+			print "At the end of the line, NEED TO STOP"
+		try:
+			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
+				print "RED SIGNAL STOP"
+		except:
+			pass
 	if (train):
 		print "Train: " + str(train.getId())
 	else:

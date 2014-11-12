@@ -71,7 +71,7 @@ Constructor:
 	if lastSection:
 		print "LAST SECTION: STOP!!!"
 	else:		
-		print "Still moving: Setting max speed " + str(actualSpeed)
+		print "Still moving: Setting max speed " + str(actualSpeed) + " clear sections " + str(clearSections)
 
     def setSpeed(self,speed):
 	self.currentSpeed = speed
