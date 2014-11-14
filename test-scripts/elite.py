@@ -3,7 +3,7 @@ import serial
 import time
 import redis
 
-ser = serial.Serial('/dev/ttyUSB1',9600)
+ser = serial.Serial('/dev/ttyACM0',9600)
 redis = redis.Redis()
 
 def send(message):
@@ -46,8 +46,9 @@ def setThrottle(address,direction,speed):
 	message[1] = 0x13
 	message[3] = address
 	message[4] = speed
-	if direction  == 'f' : message[4] |= int(b'10000000',2)
-	elif direction =='b' : message[4] &= int(b'01111111',2)
+	print direction;
+	if direction  == 'F' : message[4] |= int(b'10000000',2)
+	elif direction == 'R' : message[4] &= int(b'01111111',2)
 	parity(message) 
 	send(message) 
 #	test(message)
@@ -74,9 +75,13 @@ while 1:
                 train_id = int(bits[0])
 		direction = bits[1]
 		speed = int(bits[2])
+		print("setting speed of " + str(train_id) + " in direction " + direction + " to speed " + str(speed));
 		setThrottle(train_id,direction,speed)
-		getFirmwareVersion()
-	
+		try:
+			getFirmwareVersion()
+		except:
+			pass;
+
 #print "Loco: " + sys.argv[1]
 #print "Direction: " + sys.argv[2]
 #print "Speed: " + sys.argv[3]

@@ -1,3 +1,5 @@
+import time
+
 class Train(object):
     """A train in the system
 
@@ -84,7 +86,10 @@ Constructor:
 		print "Still moving: Setting max speed " + str(actualSpeed) + " clear sections " + str(clearSections)
 
     def setSpeed(self,speed):
-	self.getRedisMQ().rpush(self.getActionQueue(),'"' + str(self.getId()) + '","' + self.getDirection() + '","'+ str(speed) + '"');
+	if (self.currentSpeed == 0):
+		time.sleep(2);
+	if (self.currentSpeed != speed):
+		self.getRedisMQ().rpush(self.getActionQueue(), str(self.getId()) + ',' + self.getDirection() + ','+ str(speed));
 	self.currentSpeed = speed
 
     def getSpeed(self):

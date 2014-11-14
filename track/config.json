@@ -22,7 +22,7 @@
     "signals": [
         {
             "aspects": 3, 
-            "color": "amber", 
+            "color": "red", 
             "section": 6, 
             "pinOut": "2A,R,A,G", 
             "placement": "R", 
@@ -57,16 +57,17 @@
         {
             "direction": "R", 
             "sections": [
+                4, 
                 1
             ], 
             "sensor_count": 2, 
             "speed": 0, 
-            "id": 3, 
+            "id": 16, 
             "speeds": [
-                8, 
-                12, 
-                16, 
-                20
+                75, 
+                78, 
+                80, 
+                83
             ]
         }
     ], 
@@ -233,7 +234,7 @@
             "forward": [
                 6
             ], 
-            "currentMaxSpeed": 1, 
+            "currentMaxSpeed": 0, 
             "directions": "B", 
             "id": 5, 
             "reverse": [
@@ -248,7 +249,7 @@
             ], 
             "currentDirection": "R", 
             "currentReverseSection": 5, 
-            "currentMaxSpeed": 2, 
+            "currentMaxSpeed": 0, 
             "directions": "B", 
             "id": 6
         }
