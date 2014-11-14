@@ -19,7 +19,7 @@
 		<a href="#" id="loco-chooser" data-role="button" data-icon="plus" data-iconpos="left" data-mini="true" data-inline="true" class="ui-btn-right">Add Loco</a>
 	</div>
 	<div id="layout">
-	<iframe src="layout.html" style="width: 100%; height: 200px;"></iframe>
+	<iframe src="layout.html?layout=endtoend" style="width: 100%; height: 200px;"></iframe>
 	</div>
 
 	<div data-role="content">

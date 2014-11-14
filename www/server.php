@@ -9,7 +9,7 @@
 	}
 
 	$string = $loco . ',direction,'.$direction;
-	$cmd = "python /home/pi/rail/redis/redisControl.py " . $loco . " Direction " . $direction;
+	$cmd = "python /home/pi/elite-xpressnet/redis/redisControl.py " . $loco . " Direction " . $direction;
 	if ($direction == "R" || $direction == "F") {
 		exec($cmd);
 	}

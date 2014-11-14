@@ -77,7 +77,7 @@ for s_in in data["signals"]:
 
 # Setup train locations, adding sections as references
 for t_in in data["trains"]:
-	train[t_in["id"]] = Train(t_in["id"],t_in["sensor_count"],t_in["speeds"])
+	train[t_in["id"]] = Train(t_in["id"],t_in["sensor_count"],t_in["speeds"],redis,"traincon")
 	for sec_in in t_in["sections"]:
 		train[t_in["id"]].addSection(section[sec_in])
 		section[sec_in].setTrain(train[t_in["id"]])
@@ -125,18 +125,20 @@ def handleSensorUpdate(message,sensor):
 	section = sensor.getSection()
 	train = section.getTrain()
 	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count: " + str(sensor.triggerCount)
-	if sensor.getPlacement() == section.getCurrentDirection() and train:
-		nextSection = section.getNextSection()
-		signal = section.getSignal(section.getCurrentDirection())
-		try: 
-			sectionId = nextSection.getId()
-		except:
-			print "At the end of the line, NEED TO STOP"
-		try:
-			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
-				print "RED SIGNAL STOP"
-		except:
-			pass
+#	if sensor.getPlacement() == section.getCurrentDirection() and train:
+#		nextSection = section.getNextSection()
+#		signal = section.getSignal(section.getCurrentDirection())
+#		try: 
+#			sectionId = nextSection.getId()
+#		except:
+#			print "At the end of the line, NEED TO STOP"
+#			train.setSpeed(0);
+#		try:
+#			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
+#				train.setSpeed(0);
+#				print "RED SIGNAL STOP"
+#		except:
+#			pass
 	if (train):
 		print "Train: " + str(train.getId())
 	else:
@@ -182,6 +184,20 @@ def handleSensorUpdate(message,sensor):
 			updateSignals()
 			train.autoSetSpeed()
 			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection() + " new max speed = " + str(section.getMaxSpeed());
+	if sensor.getPlacement() == section.getCurrentDirection() and train:
+		nextSection = section.getNextSection()
+		signal = section.getSignal(section.getCurrentDirection())
+		try: 
+			sectionId = nextSection.getId()
+		except:
+			print "At the end of the line, NEED TO STOP"
+			train.setSpeed(0);
+		try:
+			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
+				train.setSpeed(0);
+				print "RED SIGNAL STOP"
+		except:
+			pass
 
 
 # Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)

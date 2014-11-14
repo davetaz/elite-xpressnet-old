@@ -1,8 +1,10 @@
 import sys
 import serial
 import time
+import redis
 
 ser = serial.Serial('/dev/ttyUSB1',9600)
+redis = redis.Redis()
 
 def send(message):
 	ok = False
@@ -65,10 +67,19 @@ def getFirmwareVersion():
 def test(message):
 	for c in message: print(c)
 
-
-print "Loco: " + sys.argv[1]
-print "Direction: " + sys.argv[2]
-print "Speed: " + sys.argv[3]
+while 1:
+        message = redis.lpop('traincon')
+        if (message):
+                bits = message.split(',')
+                train_id = int(bits[0])
+		direction = bits[1]
+		speed = int(bits[2])
+		setThrottle(train_id,direction,speed)
+		getFirmwareVersion()
+	
+#print "Loco: " + sys.argv[1]
+#print "Direction: " + sys.argv[2]
+#print "Speed: " + sys.argv[3]
 #setThrottle(3,"b",0);
-setThrottle(int(sys.argv[1]),sys.argv[2],int(sys.argv[3]));
-getFirmwareVersion()
+#setThrottle(int(sys.argv[1]),sys.argv[2],int(sys.argv[3]));
+#getFirmwareVersion()

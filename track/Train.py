@@ -9,14 +9,22 @@ Constructor:
 	sections = The section or sections the train is currently ocupying with at least one sensor.
 
 """
-    def __init__(self, id_in, sensor_count, speeds):
+    def __init__(self, id_in, sensor_count, speeds,redis,action_queue):
         """Method docstring."""
 	self.id = id_in
         self.sensorCount = sensor_count
 	self.speeds = speeds
+	self.redis = redis
+	self.action_queue = action_queue
 	self.sections = []
 	self.currentSpeed = 0
 	self.direction = "f"
+
+    def getRedisMQ(self):
+	return self.redis
+    
+    def getActionQueue(self):
+	return self.action_queue
 
 
     def getId(self):
@@ -70,10 +78,13 @@ Constructor:
 			actualSpeed = 0;
 	if lastSection:
 		print "LAST SECTION: STOP!!!"
+		self.setSpeed(0);
 	else:		
+		self.setSpeed(actualSpeed);
 		print "Still moving: Setting max speed " + str(actualSpeed) + " clear sections " + str(clearSections)
 
     def setSpeed(self,speed):
+	self.getRedisMQ().rpush(self.getActionQueue(),'"' + str(self.getId()) + '","' + self.getDirection() + '","'+ str(speed) + '"');
 	self.currentSpeed = speed
 
     def getSpeed(self):
