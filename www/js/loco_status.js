@@ -96,6 +96,24 @@ for (i=3;i<128;i++) {
 	prev[i] = 0;
 }
 
+var autoRouteTimeout;
+
+function autoRoute(obj) {
+	if (autoRouteTimeout) return;
+	sections = obj.sections;
+	speed = obj.speed;
+	direction = obj.direction;
+	if (sections.length > 1) return;
+	if (speed > 0 ) return;
+	if (sections[0] == 1 && direction == "R") {
+		console.log("Forward timeout request");
+		autoRouteTimeout = setTimeout(function() { requestDirectionChange(obj.id,"forward"); autoRouteTimeout = false; },10000);
+	} else if (sections[0] == 6 && direction == "F") {
+		console.log("Reverse timeout request");
+		autoRouteTimeout = setTimeout(function() { requestDirectionChange(obj.id,"reverse"); autoRouteTimeout = false; },10000);
+	}
+}
+
 function loco_monitor() {
 	$.ajax('data/config.json')
 	  .done(function(data) {
@@ -112,6 +130,7 @@ function loco_monitor() {
 			}
 			set_direction(obj.direction,obj.id,null);
 			currentDirection[obj.id] = obj.direction;
+			autoRoute(obj);
 		});
           })
 	  .fail(function() {

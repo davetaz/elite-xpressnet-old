@@ -32,7 +32,7 @@
 	{ "id": "34,A,1", "pinOut" : "3,4", "section" : 5}
    ],
    "trains": [
-	{ "id": 16, "sensor_count": 2, "sections": [ 1 ], "speeds": [75,78,80,83], "direction": "F" }
+	{ "id": 16, "sensor_count": 2, "sections": [ 1 ], "speeds": [75,78,80,83], "direction": "R" }
    ],
    "piinterface": [
    	{ "id": 1, "bus": 1 }
