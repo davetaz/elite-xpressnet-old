@@ -7,6 +7,19 @@
 	background-color: #CDF;
 	margin: 0.5em;
 	display: inline-block;
+	vertical-align: top;
+}
+.controls {
+}
+.control {
+	padding-top: 6px;
+	padding-left: 10px;
+	display: block;
+	width: 95%;
+	height: 24px;
+}
+.toggles {
+	float: right;
 }
 .function_label {
 	display: inline-block;
@@ -14,13 +27,14 @@
 	text-align: right;
 	font-size: 0.75em;
 	vertical-align: top;
-	padding-top: 5px;	
+	padding-top: 5px;
+	padding-right: 10px;	
 }
 .function_panel {
 	display: inline-block;
-	text-align: right;
 	padding-right: 15px;
 	float: right;
+	width: 160px;
 }
 .direction_panel {
 	display: inline-block;

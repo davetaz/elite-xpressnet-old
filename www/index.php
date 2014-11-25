@@ -6,8 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/rail.css" />
 	<link rel="stylesheet" href="css/jquery.mobile-1.3.1.min.css" />
+	<link rel="stylesheet" href="css/toggles.css" />
+	<link rel="stylesheet" href="css/themes/toggles-modern.css" />
 	<script src="js/jquery-1.9.1.min.js"></script>
 	<script src="js/jquery.mobile-1.3.1-davetaz.js"></script>
+	<script src="js/toggles.js"></script>
+	<script src="js/toggles-min.js"></script>
 	<script src="js/loco_status.js"></script>
 </head>
 <body>
@@ -21,8 +25,12 @@
 	<div id="layout">
 	<iframe src="layout.html?layout=endtoend" style="width: 100%; height: 200px;"></iframe>
 	</div>
-
-	<div data-role="content">
+	<div class="loco controls">
+		<b>Control</b><br/>
+		<control class="control" id="piint">Pi-Interface:<div id="piint-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div>
+		<control class="control" id="track">Master control:<div id="track-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<control class="control" id="train">Train control:<div id="train-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+	</div>
 <?php
 	for ($i=3;$i<20;$i++) {
 		draw_loco($i);
@@ -56,10 +64,7 @@ echo '		<form id="loco_'.$id.'" class="loco">
 		    </div>
 		    <div id="function_panel" class="function_panel">
 		    	<label class="function_label" for="F0-'.$id.'">Direction Lights:</label>
-		    	<select name="F0-'.$id.'" id="F0-'.$id.'" data-role="slider" data-mini="true">
-		    		<option value="off">off</option>
-				<option value="on">on</option>
-		    	</select>
+			<div id="F0-'.$id.'" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div>
 		    </div>
 		</form>';
 }

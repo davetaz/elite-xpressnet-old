@@ -10,10 +10,14 @@ $.ajaxSetup ({
 });
 
 $(document).ready(function() {
+	$('.toggles').toggles();
 	display_3_only();
 	loco_monitor();
 	setInterval(function(){loco_monitor();},500);
 	register_event_handlers();
+	for (lk=3;lk<20;lk++) {
+		register_loco_functions(lk);
+	}
 });
 
 function display_3_only() {
@@ -46,8 +50,26 @@ function register_event_handlers() {
 			$("#"+node).fadeOut('slow');
 		}
 	});
+	$('#piint').on('toggle', function (e, active) {
+		if (active) console.log("piint ON");
+		if (!active) console.log("piint OFF");
+	});
+	$('#track').on('toggle', function (e, active) {
+		if (active) console.log("track ON");
+		if (!active) console.log("track OFF");
+	});
+	$('#train').on('toggle', function (e, active) {
+		if (active) console.log("train ON");
+		if (!active) console.log("train OFF");
+	});
 }
 
+function register_loco_functions(lk) {
+	$('#F0-' + lk).on('toggle', function (e, active) {
+			if (active) console.log("F0-" + lk + " ON");
+			if (!active) console.log("F0-" + lk + " OFF");
+	});
+}
 function requestDirectionChange(loco,direction) {
 	if (direction == "forward") {
 		direction = "F";
