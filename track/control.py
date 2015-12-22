@@ -257,6 +257,7 @@ updateSignals()
 while 1:
 	message = redis.lpop('sensors')
 	if (message):
+		print "Got a message " + message;
 		bits = message.split(',')
 		address = bits[0] + "," + bits[1] + "," + bits[2]
 		try: 
