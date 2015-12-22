@@ -52,17 +52,35 @@ function register_event_handlers() {
 		}
 	});
 	$('#pi-interface').on('toggle', function (e, active) {
-		if (active) console.log("pi-interface ON");
-		if (!active) console.log("pi-interface OFF");
+		if (active) {
+			service_control("pi-interface","start");	
+		} else {
+			service_control("pi-interface","stop");	
+		}
 	});
 	$('#track').on('toggle', function (e, active) {
-		if (active) console.log("track ON");
-		if (!active) console.log("track OFF");
+		if (active) {
+			service_control("track","start");	
+		} else {
+			service_control("track","stop");	
+		}
 	});
 	$('#train').on('toggle', function (e, active) {
-		if (active) console.log("train ON");
-		if (!active) console.log("train OFF");
+		if (active) {
+			service_control("train","start");	
+		} else {
+			service_control("train","stop");	
+		}
 	});
+}
+
+function service_control(service,operation) {
+	$.ajax('bin/service.php?service=' + service + '&operation=' + operation)
+	.done(function(data) {
+		console.log(data);
+	})
+	.fail(function() {
+        })
 }
 
 function register_loco_functions(lk) {
