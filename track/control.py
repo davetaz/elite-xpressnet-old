@@ -218,6 +218,18 @@ def handleTrainUpdate(message,train,instruction,data):
 	updateSignals()
 	train.autoSetSpeed()
 
+def handleSignalUpdate(message,signal,mode,color):
+	print ""
+	print ""
+	# Get the mode and set it, if different
+	# Get the color and call see if it is different,
+	# If it is different, see if it can be changed to this color:
+		# Get number of clear sections forward (connected sections also)
+		# Get number of clear sections reverse (connected sections also)
+		# Set the color
+	# If the signal is not in auto mode and is red, it remains red. Else it is set automatically (with auto mode still off).
+	# The test is to set the second signal to auto off and set it to red, then call update signals and the previous one should be amber and not green.
+
 def rewriteConfig(data):
 	for t_in in data["trains"]:
 		t_in["sections"] = train[t_in["id"]].getSectionsArray()
@@ -269,12 +281,19 @@ while 1:
 		else: 
 			handleTrainUpdate(message,train[address],instruction,datablob)
 			rewriteConfig(data)
+	
+	message = redis.lpop('signals')
 
-# TASK 2
-# Set a signal to allow a train into the next section
-# 1. Find the signal and direction
-# 2. Begin itterator to find number of clear sections, up to 3 sections max. 
-	# A. Get the next section in the direction of the signal, check if any trains are in the section
-	# B. If clear, Find the reverse signal in the next (2 along) section and set it to stop (it should also check that it can be set to stop by checking that there are no trains in the section heading towards it).
-# 4. Set the signal to clear with the color that represents the number of sections that are clear ahead. 
+	if (message):
+		bits = message.split(',')
+		address = int(bits[0])
+		mode = bits[1]
+		color = bits[2]
+		try: 
+			signal[address]
+		except:
+			pass
+		else: 
+			handleSignalUpdate(message,signal[address],mode,color)
+			rewriteConfig(data)
 

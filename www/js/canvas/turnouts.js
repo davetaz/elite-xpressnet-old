@@ -61,3 +61,14 @@ function right_turnout_up(id,x,y) {
 	context.quadraticCurveTo(x+50,y,x+70,y-15);
 	context.lineTo(x+76,y-21);    
 }
+
+function up_turnout_right(id,x,y) {
+	var canvas = document.getElementById('canvas' + id);
+	var context = canvas.getContext('2d');
+	context.moveTo(x,y);
+	context.lineTo(x,y-30);
+	context.lineTo(x,y-100);
+	context.moveTo(x,y-30);
+	context.quadraticCurveTo(x,y-50,x+15,y-70);
+	context.lineTo(x+21,y-76);    
+}

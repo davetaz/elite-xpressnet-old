@@ -21,8 +21,9 @@
     ], 
     "signals": [
         {
-            "aspects": 3, 
-            "color": "amber", 
+            "aspects": 3,
+            "auto": "true", 
+            "color": "red", 
             "section": 6, 
             "pinOut": "2A,R,A,G", 
             "placement": "R", 
@@ -30,7 +31,8 @@
         }, 
         {
             "aspects": 2, 
-            "color": "red", 
+            "auto": "true", 
+            "color": "amber", 
             "section": 3, 
             "pinOut": "G,A,R,2A", 
             "placement": "F", 
@@ -38,6 +40,7 @@
         }, 
         {
             "aspects": 2, 
+            "auto": "true", 
             "color": "red", 
             "section": 4, 
             "pinOut": "2A,R,A,G", 
@@ -46,7 +49,8 @@
         }, 
         {
             "aspects": 3, 
-            "color": "red", 
+            "auto": "false", 
+            "color": "green", 
             "section": 1, 
             "pinOut": "G,A,R,2A", 
             "placement": "F", 
@@ -55,7 +59,7 @@
     ], 
     "trains": [
         {
-            "direction": "R", 
+            "direction": "F", 
             "sections": [
                 1
             ], 

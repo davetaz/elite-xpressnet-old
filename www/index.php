@@ -14,22 +14,21 @@
 	<script src="js/toggles-min.js"></script>
 	<script src="js/loco_status.js"></script>
 </head>
+
 <body>
-
 <div data-role="page" style="min-width: 430px">
-
 	<div data-role="header">
 		<h1>xPressNet Control</h1>
 		<a href="#" id="loco-chooser" data-role="button" data-icon="plus" data-iconpos="left" data-mini="true" data-inline="true" class="ui-btn-right">Add Loco</a>
 	</div>
 	<div id="layout">
-	<iframe src="layout.html?layout=endtoend" style="width: 100%; height: 200px;"></iframe>
+	<iframe id="layoutFrame" src="layout.html?layout=endtoend" style="width: 100%; height: 200px;"></iframe>
 	</div>
 	<div class="loco controls">
-		<b>Control</b><br/>
-		<control class="control" id="piint">Pi-Interface:<div id="piint-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div>
-		<control class="control" id="track">Master control:<div id="track-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
-		<control class="control" id="train">Train control:<div id="train-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<b>Systems</b><br/>
+		<control class="control" id="piint">Commander:<div id="piint-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<control class="control" id="track">Track electronics:<div id="track-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<control class="control" id="train">DCC control:<div id="train-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
 	</div>
 <?php
 	for ($i=3;$i<20;$i++) {
@@ -45,6 +44,8 @@
 	</div>
 -->
 </div><!-- /page -->
+
+<script src="js/frameHandler.js"></script>
 
 </body>
 </html>

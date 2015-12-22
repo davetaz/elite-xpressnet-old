@@ -1,4 +1,5 @@
 sections = 11;
+controls = {};
 
 $.ajaxSetup ({
     // Disable caching of AJAX responses
@@ -13,9 +14,40 @@ function drawSection(id,color) {
     context.stroke();
 }
 
+function toggleControl(id) {
+	if (controls.id) {
+		$('#' + id).css('z-index',-30);
+		$('#' + id).fadeOut();
+		controls.id = false;
+	} else {
+		$('#' + id).css('z-index',30);
+		$('#' + id).fadeIn();
+		controls.id = true;
+	}
+}
+
 function tpLayoutF() {
-	tpLayoutE();
+	tpLayoutD();
 	sections = 11;
+
+	//Bits to replace E
+	right_turnout_down(2,507,490);
+	goTo(2,658,540);	
+	first_degree(2,658,220,0.5);		
+	strait_section(2,658,540,30);
+	third_degree(7,730,140,0);
+	third_degree(7,730,140,0.25);
+	strait_section(7,680,540,50);
+	
+	sectionMarker(2,640,533);
+	sectionMarker(7,700,533);
+	sectionMarker(7,923,260);
+	sectionMarker(7,965,240);
+	
+	add_section_box(7,845,500);
+
+	addForwardSignal("35,B,1",645,575,"white");
+	addForwardSignalBreakout(7,645,575,180);	
 	
 	strait_section(8,340,190,240);
 	left_turnout_down(6,580,190);
@@ -23,6 +55,8 @@ function tpLayoutF() {
 	
 	add_section_box(8,410,190);
 	add_section_box(9,410,290);
+	add_section_box(10,920,120);
+	add_section_box(11,980,120);
 
 	sectionMarker(7,580,182);	
 	sectionMarker(7,540,182);	
@@ -31,6 +65,10 @@ function tpLayoutF() {
 	sectionMarker(8,470,182);	
 	sectionMarker(9,470,227);	
 	sectionMarker(9,356,330);	
+	sectionMarker(10,922,50);
+	sectionMarker(10,922,180);
+	sectionMarker(11,977,50);
+	sectionMarker(11,977,180);
 
 	addForwardSignal("36,B,1",530,225,"white");
 	addForwardSignalBreakout(1,530,225,180);	
@@ -39,7 +77,12 @@ function tpLayoutF() {
 	addForwardSignal("38,B,1",477,220,"white");
 	addForwardSignalBreakout(7,477,220,-45);	
 
-	
+	up_turnout_right(7,930,350);
+	strait_section_free(10,930,30,930,350);
+	goTo(7,985,195);	
+	first_degree(7,875,-15,0);
+	goTo(7,985,195);	
+	strait_section_free(11,985,195,985,30);
 
 
 /*	
@@ -70,6 +113,8 @@ function tpLayoutE() {
 	sectionMarker(2,640,533);
 	sectionMarker(7,700,533);
 	sectionMarker(7,923,100);
+	
+	add_section_box(7,920,300);
 
 	addForwardSignal("35,B,1",645,575,"white");
 	addForwardSignalBreakout(7,645,575,180);	

@@ -4,7 +4,12 @@
 import redis
 import sys
 from time import sleep
-from subprocess import call
 
 r = redis.Redis()
-r.rpush(sys.argv[1],sys.argv[2]+","+sys.argv[3]+","+sys.argv[4])
+
+r.rpush("signals",'"33,B,16",false,amber');
+#8
+sleep(5)
+r.rpush("signals",'"33,B,16",false,red');
+#64
+echo("32,B,16 should be amber!");
