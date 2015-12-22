@@ -3,6 +3,7 @@
 # Status update 22/9/2013 
 # This simple example should now work with 3 connected sections, 4 sensors and 2 signals. This code needs freezing and testing at version 1. Then it could probably do with some tidying up with debug routines before moving onto adding turnouts.
 
+import logging
 import json
 import redis
 from Section import Section
@@ -10,6 +11,9 @@ from Sensor import Sensor
 from Signal import Signal
 from Train import Train
 from Turnout import Turnout
+
+LOG_FILENAME = "/home/pi/elite-xpressnet/track/run/log.txt"
+logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG,filemode="w")
 
 json_data=open('/home/pi/elite-xpressnet/track/config.json')
 data = json.load(json_data)
@@ -86,34 +90,34 @@ for t_in in data["trains"]:
 	
 ## TRAINING / DEBUG CODE 
 ## Performs some very basic operations
-## print section[1].getCurrentDirection();
+## logging.debug(section[1].getCurrentDirection());
 ## Get Train #3
 #t_3 = train[3];
 ## Get the sections that Train #3 is currently in
 #tsections = t_3.getSections();
 #for section in tsections:
 ## Get the signals in this section
-#	print "Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection()
+#	logging.debug("Current Section = " + str(section.getId()) + " direction = " + section.getCurrentDirection())
 #	nextSection = section.getNextSection()	
 #	try:
 #		nextSection
 #	except:
-#		print "No next section!";
+#		logging.debug("No next section!");
 #	else:
-#		print "Next Section: " + str(nextSection.getId())
+#		logging.debug("Next Section: " + str(nextSection.getId()))
 #
 #	s_1 = section.getSignals();
 ## Print out some info
 #	for s in s_1:
-#		print s.getId() 
-#		print s.getPlacement()
-#		print s.getColor()
+#		logging.debug(s.getId()) 
+#		logging.debug(s.getPlacement())
+#		logging.debug(s.getColor())
 #
 
 def updateSignals():
 	global sections
 	for s in sections:
-#		print "Processing section " + str(s.getId())
+#		logging.debug("Processing section " + str(s.getId()))
 		s.updateSignals()
 			
 # TASK 1
@@ -121,30 +125,30 @@ def updateSignals():
 # Consume events from the queue and send events to the queue to set signals potentially
 
 def handleSensorUpdate(message,sensor):
-	print ""
-	print ""
+	logging.debug("")
+	logging.debug("")
 	sensor.triggerCount += 1
 	section = sensor.getSection()
 	train = section.getTrain()
-	print "Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count: " + str(sensor.triggerCount)
+	logging.debug("Sensor activated: " + address + " Section: " + str(section.getId()) + " Placement: " + sensor.getPlacement() + " Count: " + str(sensor.triggerCount))
 #	if sensor.getPlacement() == section.getCurrentDirection() and train:
 #		nextSection = section.getNextSection()
 #		signal = section.getSignal(section.getCurrentDirection())
 #		try: 
 #			sectionId = nextSection.getId()
 #		except:
-#			print "At the end of the line, NEED TO STOP"
+#			logging.debug("At the end of the line, NEED TO STOP")
 #			train.setSpeed(0);
 #		try:
 #			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
 #				train.setSpeed(0);
-#				print "RED SIGNAL STOP"
+#				logging.debug("RED SIGNAL STOP")
 #		except:
 #			pass
 	if (train):
-		print "Train: " + str(train.getId())
+		logging.debug("Train: " + str(train.getId()))
 	else:
-		print "No train in section " + str(section.getId())
+		logging.debug("No train in section " + str(section.getId()))
 	if (sensor.triggerCount % 2 == 0 and section.getPreviousSection()):
 		prevSection = section.getPreviousSection()
 		try:
@@ -158,7 +162,7 @@ def handleSensorUpdate(message,sensor):
 			for psensor in prevSection.getSensors():
 				psensor.triggerCount = 0		
 		
-			print "Train has left Section " + str(section.getPreviousSection().getId())
+			logging.debug("Train has left Section " + str(section.getPreviousSection().getId()))
 #			Call refresh on all signals
 			updateSignals()
 
@@ -166,14 +170,14 @@ def handleSensorUpdate(message,sensor):
 		sensor.triggerCount = 0
 	
 	if (train):
-		print "Train " + str(train.getId()) + " in section already"
+		logging.debug("Train " + str(train.getId()) + " in section already")
 		train.autoSetSpeed()
 	else:
-#		print "Need to work out which train this is!"
+#		logging.debug("Need to work out which train this is!")
 #		if (section.getPreviousSection()):
 		train = section.getPreviousSection().getTrain()
 		if (train):
-#			print "It's train " + str(train.getId()) 
+#			logging.debug("It's train " + str(train.getId()))
 			section.setTrain(train)
 			train.addSection(section)
 			train.setDirection(section.getCurrentDirection())
@@ -185,19 +189,19 @@ def handleSensorUpdate(message,sensor):
 				pass
 			updateSignals()
 			train.autoSetSpeed()
-			print "Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection() + " new max speed = " + str(section.getMaxSpeed());
+			logging.debug("Train " + str(train.getId()) + " moved from Section " + str(section.getPreviousSection().getId()) + " to section " + str(section.getId()) + " in direction " + train.getDirection() + " new max speed = " + str(section.getMaxSpeed()));
 	if sensor.getPlacement() == section.getCurrentDirection() and train:
 		nextSection = section.getNextSection()
 		signal = section.getSignal(section.getCurrentDirection())
 		try: 
 			sectionId = nextSection.getId()
 		except:
-			print "At the end of the line, NEED TO STOP"
+			logging.debug("At the end of the line, NEED TO STOP")
 			train.setSpeed(0);
 		try:
 			if signal.getColor() == "red" and sensor.triggerCount % 2 > 0:
 				train.setSpeed(0);
-				print "RED SIGNAL STOP"
+				logging.debug("RED SIGNAL STOP")
 		except:
 			pass
 
@@ -205,8 +209,8 @@ def handleSensorUpdate(message,sensor):
 # Task 2: Handle train reverse instruction and call for section updates (Need to work out how to reverse, perhaps autoreverse if in a bi directional section and there is no further section)
 
 def handleTrainUpdate(message,train,instruction,data):
-	print ""
-	print "" 
+	logging.debug("")
+	logging.debug("") 
 	if (instruction == "Direction"):
 		sections = train.getSections()
 		can_change = True
@@ -221,8 +225,8 @@ def handleTrainUpdate(message,train,instruction,data):
 	train.autoSetSpeed()
 
 def handleSignalUpdate(message,signal,mode,color):
-	print ""
-	print ""
+	logging.debug("")
+	logging.debug("")
 	# Get the mode and set it, if different
 	# Get the color and call see if it is different,
 	# If it is different, see if it can be changed to this color:
@@ -259,13 +263,13 @@ updateSignals()
 while 1:
 	message = redis.lpop('sensors')
 	if (message):
-		print "Got a message " + message;
+		logging.debug("Got a message " + message);
 		bits = message.split(',')
 		address = bits[0] + "," + bits[1] + "," + bits[2]
 		try: 
 			sensor[address]
 		except:
-			print "Recieved a message from a sensor that didn't exist in the config!"
+			logging.debug("Recieved a message from a sensor that didn't exist in the config!")
 			pass
 		else: 
 			handleSensorUpdate(message,sensor[address])

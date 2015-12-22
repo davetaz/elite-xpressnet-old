@@ -21,35 +21,35 @@
     ], 
     "signals": [
         {
-            "aspects": 3, 
+            "placement": "R", 
             "color": "red", 
             "section": 6, 
             "pinOut": "2A,R,A,G", 
-            "placement": "R", 
+            "aspects": 3, 
             "id": "32,B,1"
         }, 
         {
-            "aspects": 2, 
+            "placement": "F", 
             "color": "amber", 
             "section": 3, 
             "pinOut": "G,A,R,2A", 
-            "placement": "F", 
+            "aspects": 2, 
             "id": "32,B,16"
         }, 
         {
-            "aspects": 2, 
+            "placement": "R", 
             "color": "red", 
             "section": 4, 
             "pinOut": "2A,R,A,G", 
-            "placement": "R", 
+            "aspects": 2, 
             "id": "33,B,1"
         }, 
         {
-            "aspects": 3, 
+            "placement": "F", 
             "color": "green", 
             "section": 1, 
             "pinOut": "G,A,R,2A", 
-            "placement": "F", 
+            "aspects": 3, 
             "id": "33,B,16"
         }
     ], 
@@ -72,39 +72,39 @@
     ], 
     "gpio": [
         {
+            "pi_id": 1, 
+            "address": "32", 
             "mode": "input", 
             "bank": "A", 
-            "id": "32,A", 
-            "pi_id": 1, 
-            "address": "32"
+            "id": "32,A"
         }, 
         {
+            "pi_id": 1, 
+            "address": "32", 
             "mode": "output", 
             "bank": "B", 
-            "id": "32,B", 
-            "pi_id": 1, 
-            "address": "32"
+            "id": "32,B"
         }, 
         {
+            "pi_id": 1, 
+            "address": "33", 
             "mode": "input", 
             "bank": "A", 
-            "id": "33,A", 
-            "pi_id": 1, 
-            "address": "33"
+            "id": "33,A"
         }, 
         {
+            "pi_id": 1, 
+            "address": "33", 
             "mode": "output", 
             "bank": "B", 
-            "id": "33,B", 
-            "pi_id": 1, 
-            "address": "33"
+            "id": "33,B"
         }, 
         {
+            "pi_id": 1, 
+            "address": "34", 
             "mode": "output", 
             "bank": "A", 
-            "id": "34,A", 
-            "pi_id": 1, 
-            "address": "34"
+            "id": "34,A"
         }
     ], 
     "sensors": [
@@ -172,25 +172,25 @@
     "sections": [
         {
             "currentForwardSection": 2, 
-            "currentReverseSection": null, 
             "currentDirection": "F", 
+            "currentReverseSection": null, 
+            "currentMaxSpeed": 4, 
             "forward": [
                 2
             ], 
-            "currentMaxSpeed": 4, 
             "directions": "B", 
             "id": 1
         }, 
         {
             "currentForwardSection": 3, 
             "turnoutId": "34,A,4", 
-            "currentReverseSection": 1, 
             "currentDirection": "F", 
+            "currentReverseSection": 1, 
+            "currentMaxSpeed": 3, 
             "forward": [
                 3, 
                 4
             ], 
-            "currentMaxSpeed": 3, 
             "directions": "B", 
             "id": 2, 
             "reverse": [
@@ -202,12 +202,12 @@
             "reverse": [
                 2
             ], 
-            "currentReverseSection": 2, 
             "currentDirection": "F", 
+            "currentReverseSection": 2, 
+            "currentMaxSpeed": 2, 
             "forward": [
                 5
             ], 
-            "currentMaxSpeed": 2, 
             "directions": "F", 
             "id": 3
         }, 
@@ -216,24 +216,24 @@
             "reverse": [
                 2
             ], 
-            "currentReverseSection": 2, 
             "currentDirection": "R", 
+            "currentReverseSection": 2, 
+            "currentMaxSpeed": 0, 
             "forward": [
                 5
             ], 
-            "currentMaxSpeed": 0, 
             "directions": "R", 
             "id": 4
         }, 
         {
             "currentForwardSection": 6, 
             "turnoutId": "34,A,1", 
-            "currentReverseSection": 3, 
             "currentDirection": "F", 
+            "currentReverseSection": 3, 
+            "currentMaxSpeed": 1, 
             "forward": [
                 6
             ], 
-            "currentMaxSpeed": 1, 
             "directions": "B", 
             "id": 5, 
             "reverse": [

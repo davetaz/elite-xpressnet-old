@@ -54,7 +54,7 @@ Output = 0x00
 			self.interface.getBus().write_byte_data(self.address,self.GPPU,0xff)
 			self.interface.getBus().write_byte_data(self.address,self.GPINTEN,0xff)
 		except:
-			print "Error setting input";
+			logging.debug("Error setting input");
 		else:
 			pass
 	if (self.mode == "output"):
@@ -83,17 +83,17 @@ Output = 0x00
 	try:
 		state = self.getInterface().getBus().read_byte_data(self.getAddress(),self.INTCAP);
 	except:
-	#	print "Failed to get physical state"
+	#	logging.debug("Failed to get physical state")
 		return 0
 	else:
 		return int(state)
 	
     def setState(self,state):
-	print "Updating state of GPIO to " + str(state)
+	logging.debug("Updating state of GPIO to " + str(state))
 	try:
 		self.getInterface().getBus().write_byte_data(self.getAddress(),self.GPIO,state)
 	except: 
-		print "Failed to set physical state"
+		logging.debug("Failed to set physical state")
 	else:
 		pass
 	

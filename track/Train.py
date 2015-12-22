@@ -1,4 +1,5 @@
 import time
+import logging 
 
 class Train(object):
     """A train in the system
@@ -79,11 +80,11 @@ Constructor:
 		else:
 			actualSpeed = 0;
 	if lastSection:
-		print "LAST SECTION: STOP!!!"
+		logging.debug("LAST SECTION: STOP!!!")
 		self.setSpeed(0);
 	else:		
 		self.setSpeed(actualSpeed);
-		print "Still moving: Setting max speed " + str(actualSpeed) + " clear sections " + str(clearSections)
+		logging.debug("Still moving: Setting max speed " + str(actualSpeed) + " clear sections " + str(clearSections))
 
     def setSpeed(self,speed):
 	if (self.currentSpeed == 0):

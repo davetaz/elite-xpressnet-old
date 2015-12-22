@@ -1,6 +1,10 @@
 #!/usr/bin/env python
+import logging
 import json
 import redis
+
+LOG_FILENAME = "/home/pi/elite-xpressnet/pi-interface/run/log.txt"
+logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG,filemode="w")
 
 # The Interfaces, this is the bit to change if you want to use a different interface library.
 from PiInterface import PiInterface
@@ -21,7 +25,7 @@ for pi_in in data["piinterface"]:
 
 for gpio_in in data["gpio"]:
 	gpio[gpio_in["id"]] = GPIO(pi[gpio_in["pi_id"]],gpio_in["address"],gpio_in["bank"],gpio_in["mode"])
-	print str(gpio_in["id"])
+	logging.debug(str(gpio_in["id"]))
 
 for s_in in data["signals"]:
 	bits = s_in["id"].split(",")
@@ -47,7 +51,7 @@ def setSignals(output,redis):
 		long_id = bits[0].replace('"','',1);
 		color = bits[1]
 		output[long_id].setColor(color)
-		print long_id + " to " + color
+		logging.debug(long_id + " to " + color)
 
 def setTurnouts(output,redis):
 	message = redis.lpop('turnout_action')
@@ -56,14 +60,14 @@ def setTurnouts(output,redis):
 		long_id = bits[0].replace('"','',1);
 		position = bits[1]
 		output[long_id].setPosition(position)
-		print long_id + " to " + position
+		logging.debug(long_id + " to " + position)
 
 def readInputs(gpio):
 	for io_id in gpio:
 		io = gpio[io_id]
 		if (io.getMode() == "input"):
 			state = io.getState()
-#			print "Reading state " + str(state) + " from " + str(io_id);
+#			logging.debug("Reading state " + str(state) + " from " + str(io_id));
 			if (state == "NULL"):
 				pass
 			else:
@@ -72,7 +76,7 @@ def readInputs(gpio):
 				if (back > 0 and back != io.getRecordedState()):
 					io.setRecordedState(back)
 					active = str(io.getAddress() ) + "," + io.getBank() + "," + str(back)
-					print "sensors " + active
+					logging.debug("sensors " + active)
 					redis.rpush("sensors",active)
 				if (state == 255):
 					io.setRecordedState(255)

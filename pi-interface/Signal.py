@@ -27,7 +27,7 @@ class Signal(Output):
 		if (bit == "A" and (color == "amber" or color == "twoamber")):
 			mask = mask + position_mask
 		if (bit == "G" and color == "green"):
-			print "Matched for green"
+			logging.debug("Matched for green")
 			mask = mask + position_mask
 		if (bit == "2A" and color == "twoamber"):
 			mask = mask + position_mask
@@ -35,5 +35,5 @@ class Signal(Output):
 		position_mask = position_mask << 1
 		
 	self.color = color	
-	print "Setting ACTUAL signal " + self.getId() + " to " + str(mask)
+	logging.debug("Setting ACTUAL signal " + self.getId() + " to " + str(mask))
 	self.setMask(mask)
