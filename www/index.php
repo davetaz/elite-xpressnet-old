@@ -1,3 +1,6 @@
+<?php
+	require_once('inc/status.php');	
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +29,8 @@
 	</div>
 	<div class="loco controls">
 		<b>Systems</b><br/>
-		<control class="control" id="piint">Commander:<div id="piint-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
-		<control class="control" id="track">Track electronics:<div id="track-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<control class="control" id="pi-interface">Commander:<div id="pi-interface-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="<?php echo getServiceStatus('pi-interface'); ?>" data-toggle-height="24" data-toggle-width="70"></div></control>
+		<control class="control" id="track">Track electronics:<div id="track-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="<?php echo getServiceStatus('track'); ?>" data-toggle-height="24" data-toggle-width="70"></div></control>
 		<control class="control" id="train">DCC control:<div id="train-tog" style="display: inline-block;" class="toggles toggle-modern" data-toggle-on="false" data-toggle-height="24" data-toggle-width="70"></div></control>
 	</div>
 <?php

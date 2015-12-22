@@ -6,9 +6,9 @@ import sys
 from time import sleep
 
 r = redis.Redis()
-#print "Setting direction of T016 to forward"
-#r.rpush("trains","16,Direction,F")
-#sleep(5)
+print "Setting direction of T016 to forward"
+r.rpush("trains","16,Direction,F")
+sleep(5)
 print "Activting first sensor in section 2 (33,A,16), first time"
 r.rpush("sensors","33,A,16")
 sleep(5)

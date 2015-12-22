@@ -8,21 +8,20 @@
     "turnouts": [
         {
             "section": 2, 
-            "connected": 4, 
+            "connected": 3, 
             "id": "34,A,4", 
             "pinOut": "3,4"
         }, 
         {
             "section": 5, 
-            "connected": 4, 
+            "connected": 3, 
             "id": "34,A,1", 
             "pinOut": "3,4"
         }
     ], 
     "signals": [
         {
-            "aspects": 3,
-            "auto": "true", 
+            "aspects": 3, 
             "color": "red", 
             "section": 6, 
             "pinOut": "2A,R,A,G", 
@@ -31,7 +30,6 @@
         }, 
         {
             "aspects": 2, 
-            "auto": "true", 
             "color": "amber", 
             "section": 3, 
             "pinOut": "G,A,R,2A", 
@@ -40,7 +38,6 @@
         }, 
         {
             "aspects": 2, 
-            "auto": "true", 
             "color": "red", 
             "section": 4, 
             "pinOut": "2A,R,A,G", 
@@ -49,7 +46,6 @@
         }, 
         {
             "aspects": 3, 
-            "auto": "false", 
             "color": "green", 
             "section": 1, 
             "pinOut": "G,A,R,2A", 
@@ -59,12 +55,12 @@
     ], 
     "trains": [
         {
-            "direction": "F", 
+            "direction": "f", 
             "sections": [
                 1
             ], 
             "sensor_count": 2, 
-            "speed": 0, 
+            "speed": 83, 
             "id": 16, 
             "speeds": [
                 75, 
@@ -177,24 +173,24 @@
         {
             "currentForwardSection": 2, 
             "currentReverseSection": null, 
-            "currentDirection": "R", 
+            "currentDirection": "F", 
             "forward": [
                 2
             ], 
-            "currentMaxSpeed": 0, 
+            "currentMaxSpeed": 4, 
             "directions": "B", 
             "id": 1
         }, 
         {
-            "currentForwardSection": 4, 
+            "currentForwardSection": 3, 
             "turnoutId": "34,A,4", 
             "currentReverseSection": 1, 
-            "currentDirection": "R", 
+            "currentDirection": "F", 
             "forward": [
                 3, 
                 4
             ], 
-            "currentMaxSpeed": 0, 
+            "currentMaxSpeed": 3, 
             "directions": "B", 
             "id": 2, 
             "reverse": [
@@ -211,7 +207,7 @@
             "forward": [
                 5
             ], 
-            "currentMaxSpeed": 0, 
+            "currentMaxSpeed": 2, 
             "directions": "F", 
             "id": 3
         }, 
@@ -232,8 +228,8 @@
         {
             "currentForwardSection": 6, 
             "turnoutId": "34,A,1", 
-            "currentReverseSection": 4, 
-            "currentDirection": "R", 
+            "currentReverseSection": 3, 
+            "currentDirection": "F", 
             "forward": [
                 6
             ], 
@@ -250,9 +246,9 @@
             "reverse": [
                 5
             ], 
-            "currentDirection": "R", 
+            "currentDirection": "F", 
             "currentReverseSection": 5, 
-            "currentMaxSpeed": 2, 
+            "currentMaxSpeed": 0, 
             "directions": "B", 
             "id": 6
         }

@@ -14,6 +14,7 @@ $(document).ready(function() {
 	display_3_only();
 	loco_monitor();
 	setInterval(function(){loco_monitor();},500);
+	setInterval(function(){status_monitor();},3000);
 	register_event_handlers();
 	for (lk=3;lk<20;lk++) {
 		register_loco_functions(lk);
@@ -50,9 +51,9 @@ function register_event_handlers() {
 			$("#"+node).fadeOut('slow');
 		}
 	});
-	$('#piint').on('toggle', function (e, active) {
-		if (active) console.log("piint ON");
-		if (!active) console.log("piint OFF");
+	$('#pi-interface').on('toggle', function (e, active) {
+		if (active) console.log("pi-interface ON");
+		if (!active) console.log("pi-interface OFF");
 	});
 	$('#track').on('toggle', function (e, active) {
 		if (active) console.log("track ON");
@@ -134,6 +135,20 @@ function autoRoute(obj) {
 		console.log("Reverse timeout request");
 		autoRouteTimeout = setTimeout(function() { requestDirectionChange(obj.id,"reverse"); autoRouteTimeout = false; },10000);
 	}
+}
+
+function status_monitor() {
+	$.ajax('data/status.php')
+	  .done(function(data) {
+		piinterface = false;
+		track = false;
+		if (data["pi-interface"] == "true") { piinterface = true; }
+		if (data["track"] == "true") { track = true; }
+		$('#pi-interface-tog').data('toggles').toggle(piinterface);
+		$('#track-tog').data('toggles').toggle(track);
+	  })
+	  .fail(function() {
+          })
 }
 
 function loco_monitor() {
