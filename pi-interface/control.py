@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import json
 import redis
 
@@ -7,7 +8,7 @@ from GPIO import GPIO
 from Signal import Signal
 from Turnout import Turnout
 
-json_data=open('../track/config.json')
+json_data=open('/home/pi/elite-xpressnet/track/config.json')
 data = json.load(json_data)
 redis = redis.Redis()
 

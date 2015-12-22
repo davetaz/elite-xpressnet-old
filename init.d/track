@@ -23,7 +23,7 @@ DAEMON_OPTS=""
 DAEMON_USER=pi
 
 # The process ID of the script when it runs is stored here:
-PIDFILE=/var/run/$DAEMON_NAME.pid
+PIDFILE=$DIR/$DAEMON_NAME.pid
 
 . /lib/lsb/init-functions
 
@@ -50,7 +50,7 @@ case "$1" in
         ;;
 
     status)
-        status_of_proc "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
+        status_of_proc -p $PIDFILE "$DAEMON_NAME" "$DAEMON" && exit 0 || exit $?
         ;;
 
     *)

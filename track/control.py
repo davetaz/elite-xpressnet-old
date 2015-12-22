@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Status update 22/9/2013 
 # This simple example should now work with 3 connected sections, 4 sensors and 2 signals. This code needs freezing and testing at version 1. Then it could probably do with some tidying up with debug routines before moving onto adding turnouts.
 
@@ -9,7 +11,7 @@ from Signal import Signal
 from Train import Train
 from Turnout import Turnout
 
-json_data=open('config.json')
+json_data=open('/home/pi/elite-xpressnet/track/config.json')
 data = json.load(json_data)
 redis = redis.Redis()
 
